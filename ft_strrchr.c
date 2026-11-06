@@ -6,17 +6,17 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 09:02:16 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/04 09:49:01 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:25:01 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
 char	*ft_strrchr(const char *s, int c)
 {
 	int	i;
 	int	j;
-    
+
 	i = 0;
 	while (s[i])
 	{
@@ -33,11 +33,3 @@ char	*ft_strrchr(const char *s, int c)
 	}
 	return (NULL);
 }
-/*
-int	main(void)
-{
-#include <stdio.h>
-
-	printf("%s\n", ft_strrchr("abcde", 101));
-	printf("%s\n", strrchr("abcde", 101));
-}*/

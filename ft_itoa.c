@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 11:15:25 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/05 11:35:38 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:22:31 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_size(int n)
 		temp = temp / 10;
 		count++;
 	}
-    if (n <= 0)
+	if (n <= 0)
 		count++;
 	return (count);
 }
@@ -57,9 +57,3 @@ char	*ft_itoa(int n)
 	dest[count] = '\0';
 	return (dest);
 }
-/*int	main(void)
-{
-#include <stdio.h>
-
-	printf("Result : [%s]\n", ft_itoa(10));
-}*/

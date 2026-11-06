@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 07:41:48 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/05 10:01:54 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:26:37 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static size_t	ft_is_set(char const *set, char c)
 	}
 	return (0);
 }
+
 static size_t	ft_skip_start(char const *s1, char const *set)
 {
 	size_t	i;
@@ -42,6 +43,7 @@ static size_t	ft_skip_start(char const *s1, char const *set)
 	}
 	return (start);
 }
+
 static size_t	ft_skip_end(char const *s1, char const *set)
 {
 	size_t	i;
@@ -86,12 +88,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	ft_strlcpy(dest, s1 + start, total_size + 1);
 	return (dest);
 }
-/*int	main(void)
-{
-#include <stdio.h>
-
-	char *dest;
-
-	dest = ft_strtrim("..test..", "..");
-	printf("%s\n", dest);
-}*/

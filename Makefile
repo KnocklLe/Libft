@@ -25,10 +25,10 @@ fclean: clean
 
 re: fclean all
 
-test: 
-	$(CC) $(CFLAGS) $(SOURCES)
-	./a.out
+main: 
+	@$(CC) $(CFLAGS) $(SOURCES) main.c
+	@./a.out
 	@rm a.out
 
 
-.PHONY: all clean fclean re bonus test
+.PHONY: all clean fclean re bonus main

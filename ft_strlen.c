@@ -6,13 +6,15 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 08:08:08 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/03 11:50:50 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:23:47 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_strlen(const char *str)
 {
-	int length = 0;
+	int	length;
+
+	length = 0;
 	while (str[length] != '\0')
 	{
 		length++;

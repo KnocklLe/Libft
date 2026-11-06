@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 11:48:06 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/03 12:03:45 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:25:21 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,3 @@ char	*ft_tolower(char *str)
 	}
 	return (str);
 }
-/*
-int	main(void)
-{
-#include <stdio.h>
-
-	char str[200] = {"tEs1tGR"};
-
-	printf("%s\n", ft_tolower(str));
-}*/

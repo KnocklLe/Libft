@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 10:07:23 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/05 11:14:17 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:26:19 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static size_t	ft_is_sep(char const s, char *c)
 	}
 	return (0);
 }
+
 static size_t	ft_countwords(void const *s, char *c)
 {
 	size_t	i;
@@ -41,6 +42,7 @@ static size_t	ft_countwords(void const *s, char *c)
 	}
 	return (count);
 }
+
 static char	*ft_wordcpy(void const *s, char *c)
 {
 	int		i;
@@ -62,6 +64,7 @@ static char	*ft_wordcpy(void const *s, char *c)
 	word[i] = '\0';
 	return (word);
 }
+
 char	**ft_split(char const *s, char *c)
 {
 	int		i;
@@ -89,18 +92,3 @@ char	**ft_split(char const *s, char *c)
 	dest[j] = NULL;
 	return (dest);
 }
-/*int	main(void)
-{
-#include <stdio.h>
-
-	char **tab;
-	int i;
-
-	tab = ft_split("salut les,gens", ",");
-	while (i < 3)
-	{
-		printf("[%s]\n", tab[i]);
-		i++;
-	}
-	return (0);
-}*/

@@ -6,15 +6,15 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 07:49:14 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/03 12:56:25 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:03:38 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_atoi(const char *str)
 {
-	int i;
-	int sign;
-	long result;
+	int		i;
+	int		sign;
+	long	result;
 
 	i = 0;
 	sign = 1;

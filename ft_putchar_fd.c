@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:58:15 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/05 17:21:26 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:23:04 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,3 @@ void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }
-/*int	main(void)
-{
-    ft_putchar_fd('A', 2);
-}*/

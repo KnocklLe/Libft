@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 11:00:58 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/03 11:50:35 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:25:29 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,3 @@ char	*ft_toupper(char *str)
 	}
 	return (str);
 }
-/*
-int	main(void)
-{
-	#include <stdio.h>
-	char    str[200] = {"tEs1t"};
-
-	printf("%s\n", ft_toupper(str));
-}*/

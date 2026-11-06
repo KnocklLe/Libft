@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 10:54:48 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/03 11:51:27 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:23:36 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,3 @@ int	ft_strlcat(char *dest, const char *src, int size)
 	dest[dest_len + i] = '\0';
 	return (dest_len + src_len);
 }
-/*
-int	main(void)
-{
-	#include <stdio.h>
-	char dest[20] = "Hello, ";
-	const char *src = "World!";
-	int size = 20;
-
-	int result = ft_strlcat(dest, src, size);
-	printf("Result: %d\n", result);
-	printf("Destination: %s\n", dest);
-
-	return (0);
-}*/

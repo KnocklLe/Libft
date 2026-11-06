@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memchr.c                                           :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 09:41:02 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/04 10:25:04 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:22:38 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (NULL);
 }
-/*
-int	main(void)
-{
-#include <stdio.h>
-
-	const char str[] = "Welcome to India";
-	const char ch = 't';
-
-	char *result = (char *)ft_memchr(str, ch, 2);
-
-	if (result != NULL)
-	{
-		printf("Trouvé à partir de : %s\n", result);
-	}
-	else
-	{
-		printf("Caractère non trouvé.\n");
-	}
-	return (0);
-}*/

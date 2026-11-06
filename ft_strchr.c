@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 08:38:50 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/04 09:49:06 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 11:28:01 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,4 @@ char	*ft_strchr(const char *s, int c)
 		i++;
 	}
 	return (NULL);
-
 }
-/*
-int	main(void)
-{
-#include <stdio.h>
-#include <string.h>
-
-	printf("%s\n", ft_strchr("", 101));
-	printf("-----------------------------\n");
-	printf("%s\n", strchr("", 101));
-}*/
