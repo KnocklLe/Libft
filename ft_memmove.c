@@ -6,23 +6,11 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 16:39:49 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/04 08:16:35 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 08:27:44 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-
-int	ft_strlen(const char *str)
-{
-	int	length;
-
-	length = 0;
-	while (str[length] != '\0')
-	{
-		length++;
-	}
-	return (length);
-}
+#include "libft.h"
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
