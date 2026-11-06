@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 13:09:07 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/06 13:18:14 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/06 13:19:10 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	long	nb;
+	long nb;
 
 	nb = n;
 	if (nb < 0)
