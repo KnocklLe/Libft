@@ -6,21 +6,23 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 09:41:02 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/06 11:22:38 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 18:59:33 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
-	size_t	i;
+	size_t				i;
+	const unsigned char	*str;
 
 	i = 0;
-	while (((unsigned char *)s)[i] && i < n)
+	str = (const unsigned char *)s;
+	while (i < n)
 	{
-		if (((unsigned char *)s)[i] == c)
-			return ((char *)&s[i]);
+		if (str[i] == (unsigned char)c)
+			return ((void *)str + i);
 		i++;
 	}
 	return (NULL);

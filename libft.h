@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 14:57:31 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/09 12:01:40 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 18:59:52 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,14 @@ char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				*ft_strtrim(char const *s1, char const *set);
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_itoa(int n);
-char				**ft_split(char const *s, char *c);
+char				**ft_split(char const *s, char c);
 void				ft_putstr_fd(char *s, int fd);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strrchr(const char *s, int c);
-char				*ft_tolower(char *str);
 char				*ft_strnstr(const char *big, const char *little,
 						size_t len);
-int					ft_strncmp(char *s1, char *s2, int n);
+int					ft_strncmp(char *s1, char *s2, size_t n);
 int					ft_strlcat(char *dest, const char *src, int size);
 char				*ft_strchr(const char *s, int c);
 void				*ft_memset(void *b, int c, size_t len);
@@ -70,5 +69,6 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
-char				*ft_toupper(char *str);
+int					ft_tolower(int c);
+int					ft_toupper(int c);
 #endif

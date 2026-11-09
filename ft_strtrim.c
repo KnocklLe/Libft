@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 07:41:48 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/06 11:26:37 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 18:59:48 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,54 +26,43 @@ static size_t	ft_is_set(char const *set, char c)
 	return (0);
 }
 
-static size_t	ft_skip_start(char const *s1, char const *set)
+static size_t	ft_skip(char const *str, char const *set, int reverse)
 {
 	size_t	i;
-	size_t	start;
+	size_t	count;
 
-	i = 0;
-	start = 0;
-	while (s1[i])
+	count = 0;
+	if (!str || !str[0])
+		return (0);
+	if (reverse)
+		i = ft_strlen(str) - 1;
+	else
+		i = 0;
+	while (str[i] && ft_is_set(set, str[i]))
 	{
-		if (ft_is_set(set, s1[i]) == 1)
-			start++;
+		count++;
+		if (reverse)
+			i--;
 		else
-			break ;
-		i++;
+			i++;
 	}
-	return (start);
+	return (count);
 }
 
-static size_t	ft_skip_end(char const *s1, char const *set)
-{
-	size_t	i;
-	size_t	end;
-
-	end = 0;
-	i = ft_strlen(s1) - 1;
-	while (s1[i])
-	{
-		if (ft_is_set(set, s1[i]) == 1)
-			end++;
-		else
-			break ;
-		i--;
-	}
-	return (end);
-}
-
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *str, char const *set)
 {
 	size_t	start;
 	size_t	end;
 	char	*dest;
 	size_t	total_size;
+	size_t	s1size;
 
-	if (set == NULL || s1 == NULL)
+	s1size = ft_strlen(str);
+	if (set == NULL || str == NULL)
 		return (NULL);
-	start = ft_skip_start(s1, set);
-	end = ft_skip_end(s1, set);
-	if (start + end >= ft_strlen(s1))
+	start = ft_skip(str, set, 0);
+	end = ft_skip(str, set, 1);
+	if (start + end >= s1size)
 	{
 		dest = malloc(1);
 		if (dest == NULL)
@@ -81,10 +70,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 		dest[0] = '\0';
 		return (dest);
 	}
-	total_size = ft_strlen(s1) - (start + end);
+	total_size = ft_strlen(str) - (start + end);
 	dest = malloc(sizeof(char) * total_size + 1);
 	if (dest == NULL)
 		return (NULL);
-	ft_strlcpy(dest, s1 + start, total_size + 1);
+	ft_strlcpy(dest, str + start, total_size + 1);
 	return (dest);
 }

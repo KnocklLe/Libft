@@ -13,13 +13,13 @@ ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 
 all: $(NAME)
 
-$(NAME): $(OBJETS)
-	ar rcs $(NAME) $(OBJETS)
+$(NAME): $(OBJECTS)
+	ar rcs $(NAME) $(OBJECTS)
 
 %.o: %.c libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 clean:
-	@rm -f $(OBJETS)
+	@rm -f $(OBJECTS)
 	@echo 'fichiers nettoye'
 
 fclean: clean
@@ -28,7 +28,7 @@ fclean: clean
 re: fclean all
 
 main:
-	@$(CC) $(CFLAGS) $(SOURCES) main.c
+	@$(CC) $(FLAGS) $(SOURCES) main.c
 	@./a.out
 	@rm a.out
 

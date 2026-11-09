@@ -6,17 +6,21 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 12:14:50 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/06 11:23:00 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 18:59:35 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void	*ft_memset(void *ptr, int value, size_t len)
 {
-	if (b == NULL || len <= 0)
-		return (NULL);
+	unsigned char	*p;
+
+	p = (unsigned char *)ptr;
 	while (len--)
-		*((unsigned char *)b++) = (unsigned char)c;
-	return (b);
+	{
+		*p = (unsigned char)value;
+		p++;
+	}
+	return (ptr);
 }

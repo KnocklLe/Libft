@@ -6,9 +6,11 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 10:54:48 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/06 11:23:36 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 18:59:40 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_strlcat(char *dest, const char *src, int size)
 {

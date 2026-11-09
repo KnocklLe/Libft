@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 11:27:38 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/06 11:27:40 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 18:59:34 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	*ft_bzero(void *s, size_t n)
 {
-	char	*ptr;
+	unsigned char	*ptr;
 
-	ptr = s;
-	while (*ptr && n--)
-		*ptr++ = '0';
+	ptr = (unsigned char *)s;
+	while (n--)
+		*ptr++ = '\0';
 	return (s);
 }
