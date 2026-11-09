@@ -6,12 +6,30 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 11:28:10 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/09 08:45:07 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 10:28:12 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+
+void	ft_toupper_content(void *content)
+{
+	char	*str;
+	int		i;
+
+	str = (char *)content;
+	i = 0;
+	while (str[i])
+	{
+		str[i] = toupper((unsigned char)str[i]);
+		i++;
+	}
+}
 
 int	main(void)
 {
@@ -124,5 +142,28 @@ int	main(void)
 		printf("La liste existe encore.\n");
 
 
+	t_list	*second;
+	t_list	*third;
+
+	lst = ft_lstnew(ft_strdup("bonjour"));
+	second = ft_lstnew(ft_strdup("salut"));
+	third = ft_lstnew(ft_strdup("hello"));
+
+	lst->next = second;
+	second->next = third;
+
+	printf("Avant ft_lstiter :\n");
+	printf("%s\n", (char *)lst->content);
+	printf("%s\n", (char *)lst->next->content);
+	printf("%s\n", (char *)lst->next->next->content);
+
+	ft_lstiter(lst, ft_toupper_content);
+
+	printf("\nApres ft_lstiter :\n");
+	printf("%s\n", (char *)lst->content);
+	printf("%s\n", (char *)lst->next->content);
+	printf("%s\n", (char *)lst->next->next->content);
+
+	ft_lstclear(&lst, free);
 	return (0);
 }
