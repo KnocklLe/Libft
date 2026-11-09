@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 08:11:31 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/09 08:33:37 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 13:35:43 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_list *node;
-	t_list *next;
+	t_list	*node;
+	t_list	*next;
+
 	if (lst == NULL)
 		return ;
 	while (*lst != NULL)
