@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 14:57:31 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/09 10:28:11 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 11:43:25 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ void				ft_lstdelone(t_list *lst, void (*del)(void *));
 char				*ft_strdup(const char *s);
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
-
+t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
+						void (*del)(void *));
+char	*ft_toupper(char *str);
 #endif
