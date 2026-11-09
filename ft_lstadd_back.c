@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 15:26:02 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/06 16:05:19 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 13:34:33 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list *lastnode;
+	t_list	*lastnode;
 
 	if (!lst || !new)
 		return ;
