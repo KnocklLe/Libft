@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 11:28:10 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/06 15:48:11 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 08:08:14 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,29 @@ int	main(void)
     free(node3);
     free(node2);
     free(lst);
+
+	lst = ft_lstnew(ft_strdup("Premier"));
+	node2 = ft_lstnew(ft_strdup("Deuxieme"));
+	node3 = ft_lstnew(ft_strdup("Troisieme"));
+
+	lst->next = node2;
+	node2->next = node3;
+
+	printf("Avant suppression :\n");
+	printf("%s\n", (char *)lst->content);
+	printf("%s\n", (char *)node2->content);
+	printf("%s\n", (char *)node3->content);
+
+	ft_lstdelone(node2, free);
+
+	printf("\nApres suppression :\n");
+	printf("%s\n", (char *)lst->content);
+	printf("%s\n", (char *)node3->content);
+
+	free(lst->content);
+	free(lst);
+	free(node3->content);
+	free(node3);
+
 	return (0);
 }
