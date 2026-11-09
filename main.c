@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 11:28:10 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/09 08:08:14 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 08:45:07 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,56 +55,74 @@ int	main(void)
     node3 = malloc(sizeof(t_list));
     new = malloc(sizeof(t_list));
 
-    lst->content = "Bonjour";
-    lst->next = node2;
+    // lst->content = "Bonjour";
+    // lst->next = node2;
 
-    node2->content = "Salut";
-    node2->next = node3;
+    // node2->content = "Salut";
+    // node2->next = node3;
 
-    node3->content = "test";
-    node3->next = NULL;
+    // node3->content = "test";
+    // node3->next = NULL;
 
-    new->content = "Nouveau";
-    new->next = NULL;
+    // new->content = "Nouveau";
+    // new->next = NULL;
 
-    printf("Avant ajout : %u\n", ft_lstsize(lst));
-    printf("Dernier noeud : %s\n",
-        (char *)ft_lstlast(lst)->content);
+    // printf("Avant ajout : %u\n", ft_lstsize(lst));
+    // printf("Dernier noeud : %s\n",
+    //     (char *)ft_lstlast(lst)->content);
 
-    ft_lstadd_back(&lst, new);
+    // ft_lstadd_back(&lst, new);
 
-    printf("\n--- APRES AJOUT ---\n");
+    // printf("\n--- APRES AJOUT ---\n");
 
-    printf("Taille de la liste : %u\n", ft_lstsize(lst));
-    printf("Dernier noeud : %s\n", (char *)ft_lstlast(lst)->content);
+    // printf("Taille de la liste : %u\n", ft_lstsize(lst));
+    // printf("Dernier noeud : %s\n", (char *)ft_lstlast(lst)->content);
 
-    free(new);
-    free(node3);
-    free(node2);
-    free(lst);
+    // free(new);
+    // free(node3);
+    // free(node2);
+    // free(lst);
+
+	// lst = ft_lstnew(ft_strdup("Premier"));
+	// node2 = ft_lstnew(ft_strdup("Deuxieme"));
+	// node3 = ft_lstnew(ft_strdup("Troisieme"));
+
+	// lst->next = node2;
+	// node2->next = node3;
+
+	// printf("Avant suppression :\n");
+	// printf("%s\n", (char *)lst->content);
+	// printf("%s\n", (char *)node2->content);
+	// printf("%s\n", (char *)node3->content);
+
+	// ft_lstdelone(node2, free);
+
+	// printf("\nApres suppression :\n");
+	// printf("%s\n", (char *)lst->content);
+	// printf("%s\n", (char *)node3->content);
+
+	// free(lst->content);
+	// free(lst);
+	// free(node3->content);
+	// free(node3);
 
 	lst = ft_lstnew(ft_strdup("Premier"));
-	node2 = ft_lstnew(ft_strdup("Deuxieme"));
-	node3 = ft_lstnew(ft_strdup("Troisieme"));
+	lst->next = ft_lstnew(ft_strdup("Deuxieme"));
+	lst->next->next = ft_lstnew(ft_strdup("Troisieme"));
 
-	lst->next = node2;
-	node2->next = node3;
-
-	printf("Avant suppression :\n");
+	printf("Avant ft_lstclear :\n");
 	printf("%s\n", (char *)lst->content);
-	printf("%s\n", (char *)node2->content);
-	printf("%s\n", (char *)node3->content);
+	printf("%s\n", (char *)lst->next->content);
+	printf("%s\n", (char *)lst->next->next->content);
 
-	ft_lstdelone(node2, free);
+	ft_lstclear(&lst, free);
 
-	printf("\nApres suppression :\n");
-	printf("%s\n", (char *)lst->content);
-	printf("%s\n", (char *)node3->content);
+	printf("\nApres ft_lstclear :\n");
+	if (lst == NULL)
+		printf("La liste est NULL !\n");
+	else
+		printf("La liste existe encore.\n");
 
-	free(lst->content);
-	free(lst);
-	free(node3->content);
-	free(node3);
 
 	return (0);
 }

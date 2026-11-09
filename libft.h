@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 14:57:31 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/09 08:08:29 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/09 08:43:39 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 char				*ft_strdup(const char *s);
+void				ft_lstclear(t_list **lst, void (*del)(void *));
 
 #endif
