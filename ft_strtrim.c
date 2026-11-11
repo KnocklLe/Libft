@@ -41,6 +41,8 @@ static size_t	ft_skip(char const *str, char const *set, int reverse)
 	while (str[i] && ft_is_set(set, str[i]))
 	{
 		count++;
+		if (reverse && i == 0)
+			return (count);
 		if (reverse)
 			i--;
 		else
@@ -57,9 +59,9 @@ char	*ft_strtrim(char const *str, char const *set)
 	size_t	total_size;
 	size_t	s1size;
 
-	s1size = ft_strlen(str);
 	if (set == NULL || str == NULL)
 		return (NULL);
+	s1size = ft_strlen(str);
 	start = ft_skip(str, set, 0);
 	end = ft_skip(str, set, 1);
 	if (start + end >= s1size)
