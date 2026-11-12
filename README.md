@@ -1,69 +1,60 @@
-<!-- ==================== HEADER ==================== -->
-
 <div align="center">
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:050505,50:003B25,100:00FF88&height=220&section=header&text=LIBFT&fontSize=85&fontColor=00FF88&fontAlignY=38&desc=Building%20my%20own%20C%20library&descAlignY=60&descSize=18&animation=fadeIn" width="100%"/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=18&duration=3000&pause=1000&color=00FF88&center=true&vCenter=true&width=600&lines=42+Common+Core+%7C+First+Project;Recreating+the+C+Standard+Library;Memory+Management+%7C+Pointers+%7C+Linked+Lists;Learning+C+one+function+at+a+time..." alt="Typing SVG"/>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=18&duration=3000&pause=1000&color=00FF88&center=true&vCenter=true&width=600&lines=42+Common+Core+%7C+First+Project;Recreating+the+C+Standard+Library;Memory+Management+%7C+Pointers+%7C+Linked+Lists" />
 
 <br/>
 
 <img src="https://img.shields.io/badge/42-School-black?style=for-the-badge&logo=42&logoColor=white"/>
-<img src="https://img.shields.io/badge/Language-C-00599C?style=for-the-badge&logo=c&logoColor=white"/>
-<img src="https://img.shields.io/badge/Library-libft.a-00FF88?style=for-the-badge&logo=files&logoColor=black"/>
-<img src="https://img.shields.io/badge/Functions-44-7B2CBF?style=for-the-badge"/>
-
-<br/><br/>
-
-[ SYSTEM INITIALIZED ]
+<img src="https://img.shields.io/badge/Language-C-blue?style=for-the-badge&logo=c"/>
+<img src="https://img.shields.io/badge/Library-libft.a-00FF88?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Functions-44-purple?style=for-the-badge"/>
 
 My first step into the world of low-level programming.
 
 </div>
 
-01 // Introduction
 ⚠️ This project has been created as part of the 42 curriculum by edolemai.
+🖥️ 01 — About the Project
 
 Libft is the first project of the 42 Common Core.
 
-The objective is to recreate a personal C library by implementing several functions from the standard C library and developing additional useful utilities.
+The objective is to create my own C library by recreating several functions from the standard C library and implementing additional useful functions.
 
-This project is about understanding what happens behind the scenes:
+Through this project, I learned how to:
 
-Memory allocation and deallocation.
-String manipulation and memory operations.
-Pointers and pointer arithmetic.
-Data structures and linked lists.
-How standard C functions work internally.
+Understand how standard C functions work.
+Manage memory allocation and deallocation.
+Manipulate strings and memory.
+Work with pointers and pointer arithmetic.
+Implement and manipulate linked lists.
 
-The final result is a static library called libft.a, designed to be reused in future 42 projects.
+The final result is a static library called libft.a, which can be reused in future 42 projects.
 
-02 // Installation
+⚙️ 02 — Installation & Compilation
 Clone the repository
 bash
-git clone git@github.com:KnocklLe/Libft.git
+git clone YOUR_REPOSITORY_URL
 cd Libft
 
-Compile
+Compile the library
 bash
 make
 
 
-<details>
-<summary>🛠️ Available Makefile commands</summary>
+This generates the static library libft.a.
 
+🛠️ Makefile Commands
 Command	Description
 make	Compile the library
 make all	Compile the library
 make clean	Remove object files
 make fclean	Remove object files and library
 make re	Clean and recompile everything
+Using the Library
 
-</details>
-
-Use the library
-
-Include the header:
+Include the header file:
 
 c
 #include "libft.h"
@@ -74,24 +65,16 @@ Compile your program:
 bash
 cc main.c -L. -lft -o program
 
-03 // Library Architecture
+📚 03 — Library Contents
 
-<div align="center">
-
-Module	Description	Functions
-🧩 Part 1	Libc Functions	24
-⚙️ Part 2	Additional Functions	11
-🔗 Part 3	Linked Lists	9
-TOTAL	Libft Library	44
-
-</div>
+The library is divided into 3 main parts, containing a total of 44 functions.
 
 🧩 Part 1 — Libc Functions
 
 Reimplementation of standard C library functions using the ft_ prefix.
 
 <details>
-<summary>🔤 Character Checking & Conversion — 7 functions</summary>
+<summary><b>🔤 Character Checking & Conversion</b></summary>
 
 Function	Description
 ft_isalpha	Checks whether a character is alphabetic.
@@ -105,7 +88,7 @@ ft_tolower	Converts uppercase to lowercase.
 </details>
 
 <details>
-<summary>📝 String Functions — 7 functions</summary>
+<summary><b>📝 String Functions</b></summary>
 
 Function	Description
 ft_strlen	Calculates the length of a string.
@@ -119,7 +102,7 @@ ft_strnstr	Searches for a substring within a limited length.
 </details>
 
 <details>
-<summary>🧠 Memory Functions — 6 functions</summary>
+<summary><b>🧠 Memory Functions</b></summary>
 
 Function	Description
 ft_memset	Fills memory with a specified byte.
@@ -132,7 +115,7 @@ ft_memcmp	Compares two memory areas.
 </details>
 
 <details>
-<summary>🔄 Conversion & Allocation — 4 functions</summary>
+<summary><b>🔄 Conversion & Allocation</b></summary>
 
 Function	Description
 ft_atoi	Converts a string into an integer.
@@ -146,7 +129,7 @@ ft_strdup	Duplicates a string using dynamic allocation.
 Additional functions designed to simplify string manipulation and output operations.
 
 <details>
-<summary>✂️ String Manipulation — 7 functions</summary>
+<summary><b>✂️ String Manipulation</b></summary>
 
 Function	Description
 ft_substr	Extracts a substring.
@@ -160,7 +143,7 @@ ft_striteri	Applies a function to each character in place.
 </details>
 
 <details>
-<summary>📤 Output Functions — 4 functions</summary>
+<summary><b>📤 Output Functions</b></summary>
 
 Function	Description
 ft_putchar_fd	Writes a character to a file descriptor.
@@ -174,9 +157,6 @@ ft_putnbr_fd	Writes an integer to a file descriptor.
 
 Implementation of functions to create, manage and manipulate linked lists.
 
-<details>
-<summary>🔗 Linked List Functions — 9 functions</summary>
-
 Function	Description
 ft_lstnew	Creates a new linked list node.
 ft_lstadd_front	Adds a node at the beginning.
@@ -187,10 +167,7 @@ ft_lstdelone	Deletes a single node.
 ft_lstclear	Deletes and frees an entire list.
 ft_lstiter	Applies a function to each node's content.
 ft_lstmap	Creates a new list by applying a function to each node.
-
-</details>
-
-04 // Project Statistics
+📊 04 — Project Statistics
 
 <div align="center">
 
@@ -198,16 +175,14 @@ ft_lstmap	Creates a new list by applying a function to each node.
 <img src="https://img.shields.io/badge/Modules-3-7B2CBF?style=for-the-badge&labelColor=101010"/>
 <img src="https://img.shields.io/badge/Language-C-00599C?style=for-the-badge&labelColor=101010"/>
 
-<br/><br/>
-
-Part	Progress
-Part 1 — Libc	🟩🟩🟩🟩🟩 24 functions
-Part 2 — Additional	🟩🟩🟩🟩🟩 11 functions
-Part 3 — Linked Lists	🟩🟩🟩🟩🟩 9 functions
-
 </div>
 
-05 // Skills & Concepts
+Part	Category	Functions
+01	Libc Functions	24
+02	Additional Functions	11
+03	Linked Lists	9
+TOTAL	Libft	44
+🧠 05 — Skills & Concepts
 
 Through Libft, I developed a better understanding of:
 
@@ -216,7 +191,7 @@ text
 │             CORE CONCEPTS                │
 ├──────────────────────────────────────────┤
 │  > C Programming                         │
-│  > Pointers & Pointer Arithmetic         │
+│  > Pointers & Pointer Arithmetic        │
 │  > Dynamic Memory Allocation             │
 │  > String Manipulation                   │
 │  > Memory Management                     │
@@ -225,12 +200,12 @@ text
 │  > Debugging & Problem Solving           │
 └──────────────────────────────────────────┘
 
-06 // Resources
+📖 06 — Resources
 42 Libft Subject
 Linux Manual Pages
 C Reference
 GNU C Library Documentation
-07 // AI Usage
+🤖 07 — AI Usage
 
 AI was used as a learning tool to better understand C concepts, clarify function behaviors and assist with debugging.
 
@@ -238,7 +213,7 @@ It also helped me improve my understanding of memory management, string manipula
 
 The objective was to use these resources to strengthen my knowledge, improve my problem-solving skills and become more independent in C programming.
 
-08 // Author
+👤 08 — Author
 
 <div align="center">
 
