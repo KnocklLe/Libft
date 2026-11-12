@@ -91,7 +91,7 @@ ft_memcpy	Copies a memory area.
 ft_memmove	Copies memory while handling overlapping regions.
 ft_memchr	Searches for a byte in memory.
 ft_memcmp	Compares two memory areas.
-Conversion and Allocation
+Conversion and Memory Allocation
 Function	Description
 ft_atoi	Converts a string into an integer.
 ft_calloc	Allocates zero-initialized memory.
@@ -102,9 +102,9 @@ Additional functions designed to simplify string manipulation and output operati
 
 String Manipulation
 Function	Description
-ft_substr	Extracts a substring.
+ft_substr	Extracts a substring from a string.
 ft_strjoin	Joins two strings into a new string.
-ft_strtrim	Removes specified characters from both ends.
+ft_strtrim	Removes specified characters from both ends of a string.
 ft_split	Splits a string using a delimiter.
 ft_itoa	Converts an integer into a string.
 ft_strmapi	Applies a function to every character and returns a new string.
@@ -134,10 +134,10 @@ Each node contains a pointer to its content and a pointer to the next node.
 Linked List Functions
 Function	Description
 ft_lstnew	Creates a new linked list node.
-ft_lstadd_front	Adds a node at the beginning.
+ft_lstadd_front	Adds a node at the beginning of a list.
 ft_lstsize	Counts the number of nodes.
 ft_lstlast	Returns the last node.
-ft_lstadd_back	Adds a node at the end.
+ft_lstadd_back	Adds a node at the end of a list.
 ft_lstdelone	Deletes a single node and frees its content.
 ft_lstclear	Deletes and frees an entire list.
 ft_lstiter	Applies a function to each node's content.
@@ -190,5 +190,3 @@ AI was used to support the learning process, improve my understanding of the cod
 edolemai
 
 42 Student | C Developer
-
-Learning by building, understanding by coding.
