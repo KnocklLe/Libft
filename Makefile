@@ -42,35 +42,4 @@ testfiles:
 		fi; \
 	done
 
-checkall:
-	@echo " __Vérification des fichiers .c et du code___"
-	@echo ""
-	@for file in $(SOURCES); do \
-		if [ ! -f "$$file" ]; then \
-			echo "[ERROR] : $$file NOT FOUND !"; \
-		else \
-			func_name=$${file%.c}; \
-			if ! grep -q "$$func_name" "$$file"; then \
-				echo "WARNING : $$file EXIT, BUT THE '$$func_name' IS NOT CORRECT."; \
-			else \
-				echo "OK : $$file EXIT AND HAS '$$func_name'"; \
-			fi; \
-		fi; \
-	done
-	@echo ""
-	@echo " __Vérification des déclarations dans libft.h___"
-	@echo ""
-	@if [ ! -f "libft.h" ]; then \
-		echo "[ERROR] : libft.h NOT FOUND !"; \
-	else \
-		for file in $(SOURCES); do \
-			func_name=$${file%.c}; \
-			if ! grep -q "$$func_name" "libft.h"; then \
-				echo "[ERROR] : '$$func_name' NOT IN libft.h !"; \
-			else \
-				echo "[OK] : '$$func_name' IS IN libft.h"; \
-			fi; \
-		done; \
-	fi
-
-.PHONY: all clean fclean re bonus main testfiles name checkall
+.PHONY: all clean fclean re main testfiles name
