@@ -34,3 +34,20 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	dest[i] = '\0';
 	return (dest);
 }
+// #include <stdio.h>
+// #include <stdlib.h>
+// int	main(void)
+// {
+// 	char	*r;
+
+// 	r = ft_substr("Hello World", 6, 5);
+// 	printf("test 1 (Hello World, 6, 5) -> ft: [%s] 
+// 		| attendu: [World]\n", r);
+// 	free(r);
+// 	r = ft_substr("Hello", 10, 3);
+// 	printf("test 2 (Hello, 10, 3)      -> ft: [%s] 
+// 		| attendu: []\n", r);
+// 	free(r);
+// 	return (0);
+// }
+

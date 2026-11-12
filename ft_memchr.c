@@ -27,3 +27,15 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (NULL);
 }
+// #include <stdio.h>
+// #include <string.h>
+// int	main(void)
+// {
+// 	char	*s = "Hello";
+
+// 	printf("test 1 'l', n=5 -> ft: %s | sys: %s\n", 
+// 		(char *)ft_memchr(s, 'l', 5), (char *)memchr(s, 'l', 5));
+// 	printf("test 2 'o', n=2 -> ft: %p 
+// 		| sys: %p\n", ft_memchr(s, 'o', 2), memchr(s, 'o', 2));
+// 	return (0);
+// }

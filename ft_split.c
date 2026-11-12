@@ -90,3 +90,26 @@ char	**ft_split(char const *s, char c)
 	dest[j] = NULL;
 	return (dest);
 }
+// #include <stdio.h>
+// #include <stdlib.h>
+// int	main(void)
+// {
+// 	char	**t;
+// 	int		i;
+
+// 	t = ft_split("  Hello   World 42 ", ' ');
+// 	printf("test 1 -> ft:");
+// 	i = 0;
+// 	while (t[i])
+// 	{
+// 		printf(" [%s]", t[i]);
+// 		free(t[i]);
+// 		i++;
+// 	}
+// 	printf(" [NULL] | attendu: [Hello] [World] [42] [NULL]\n");
+// 	free(t);
+// 	t = ft_split("", ' ');
+// 	printf("test 2 -> ft: t[0] = %p | attendu: (nil)\n", (void *)t[0]);
+// 	free(t);
+// 	return (0);
+// }

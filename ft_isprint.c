@@ -19,3 +19,14 @@ int	ft_isprint(int c)
 	else
 		return (0);
 }
+//  #include <stdio.h>
+//  #include <ctype.h>
+
+// int	main(void)
+// {
+//  	printf("test 1 ' '  -> ft: %d 
+// | sys: %d\n", ft_isprint(' '), isprint(' '));
+// 	printf("test 2 '\\n' -> ft: %d 
+// | sys: %d\n", ft_isprint('\n'), isprint('\n'));
+// 	return (0);
+// }

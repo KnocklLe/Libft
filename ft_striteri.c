@@ -25,3 +25,20 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 		i++;
 	}
 }
+// #include <stdio.h>
+// void	f(unsigned int i, char *c)
+// {
+// 	*c = *c + i;
+// }
+
+// int	main(void)
+// {
+// 	char	s1[] = "aaaa";
+// 	char	s2[] = "";
+
+// 	ft_striteri(s1, f);
+// 	printf("test 1 (aaaa) -> ft: %s | attendu: abcd\n", s1);
+// 	ft_striteri(s2, f);
+// 	printf("test 2 (\"\") -> ft: [%s] | attendu: []\n", s2);
+// 	return (0);
+// }

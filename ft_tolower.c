@@ -18,3 +18,13 @@ int	ft_tolower(int c)
 		return (c + 32);
 	return (c);
 }
+// #include <stdio.h>
+// #include <ctype.h>
+// int	main(void)
+// {
+// 	printf("test 1 'A' -> ft: %c 
+// 		| sys: %c\n", ft_tolower('A'), tolower('A'));
+// 	printf("test 2 '?' -> ft: %c 
+// 		| sys: %c\n", ft_tolower('?'), tolower('?'));
+// 	return (0);
+// }

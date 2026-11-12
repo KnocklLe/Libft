@@ -35,3 +35,18 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	dest[dest_len + i] = '\0';
 	return (dest_len + src_len);
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	char	a[20] = "Hello";
+// 	char	b[20] = "Hello";
+// 	size_t	ret;
+
+// 	ret = ft_strlcat(a, " World", 20);
+// 	printf("test 1 size 20 -> ret: %zu, dst: %s 
+// 		| attendu: 11, Hello World\n", ret, a);
+// 	ret = ft_strlcat(b, " World", 3);
+// 	printf("test 2 size 3  -> ret: %zu, dst: %s 
+// 		| attendu: 9, Hello\n", ret, b);
+// 	return (0);
+// }

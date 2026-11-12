@@ -20,3 +20,12 @@ int	ft_isalnum(int c)
 	else
 		return (0);
 }
+/*
+int	main(void)
+{
+	#include <stdio.h>
+	#include <ctype.h>
+	printf("test 1 'Z' -> ft: %d | sys: %d\n", ft_isalnum('Z'), isalnum('Z'));
+	printf("test 2 '@' -> ft: %d | sys: %d\n", ft_isalnum('@'), isalnum('@'));
+	return (0);
+}*/

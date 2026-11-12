@@ -34,3 +34,34 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	}
 	return (newlist);
 }
+
+// #include <stdio.h>
+// #include <stdlib.h>
+
+// void	*f(void *content)
+// {
+// 	char	*s;
+
+// 	s = ft_strdup(content);
+// 	s[0] = ft_toupper(s[0]);
+// 	return (s);
+// }
+
+// int	main(void)
+// {
+// 	t_list	*lst;
+// 	t_list	*m;
+
+// 	lst = ft_lstnew(ft_strdup("abc"));
+// 	lst->next = ft_lstnew(ft_strdup("def"));
+// 	m = ft_lstmap(lst, f, free);
+// 	printf("test 1 -> nouvelle: %s %s 
+// 		| ancienne: %s %s | attendu: Abc Def | abc def\n",
+// 		(char *)m->content, (char *)m->next->content,
+// 		(char *)lst->content, (char *)lst->next->content);
+// 	ft_lstclear(&m, free);
+// 	ft_lstclear(&lst, free);
+// 	m = ft_lstmap(NULL, f, free);
+// 	printf("test 2 NULL -> %p | attendu: (nil)\n", (void *)m);
+// 	return (0);
+// }

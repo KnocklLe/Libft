@@ -32,3 +32,12 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	}
 	return (NULL);
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	printf("test 1 (World, len 11) -> ft: %s | attendu: World\n", 
+// 		ft_strnstr("Hello World", "World", 11));
+// 	printf("test 2 (World, len 8)  -> ft: %p | attendu: (nil)\n", 
+// 		ft_strnstr("Hello World", "World", 8));
+// 	return (0);
+// }

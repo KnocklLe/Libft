@@ -57,3 +57,17 @@ char	*ft_itoa(int n)
 	dest[count] = '\0';
 	return (dest);
 }
+// #include <stdio.h>
+// #include <stdlib.h>
+// int	main(void)
+// {
+// 	char	*r;
+
+// 	r = ft_itoa(-42);
+// 	printf("test 1 -42         -> ft: %s | attendu: -42\n", r);
+// 	free(r);
+// 	r = ft_itoa(-2147483648);
+// 	printf("test 2 -2147483648 -> ft: %s | attendu: -2147483648\n", r);
+// 	free(r);
+// 	return (0);
+// }

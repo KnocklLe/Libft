@@ -79,3 +79,17 @@ char	*ft_strtrim(char const *str, char const *set)
 	ft_strlcpy(dest, str + start, total_size + 1);
 	return (dest);
 }
+// #include <stdio.h>
+// #include <stdlib.h>
+// int	main(void)
+// {
+// 	char	*r;
+
+// 	r = ft_strtrim("  xxHello x Worldxx  ", " x");
+// 	printf("test 1 -> ft: [%s] | attendu: [Hello x World]\n", r);
+// 	free(r);
+// 	r = ft_strtrim("xxxx", "x");
+// 	printf("test 2 -> ft: [%s] | attendu: []\n", r);
+// 	free(r);
+// 	return (0);
+// }

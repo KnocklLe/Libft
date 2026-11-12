@@ -25,3 +25,13 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+// #include <stdio.h>
+// #include <string.h>
+// int	main(void)
+// {
+// 	printf("test 1 (abc, abd, 3) -> ft: %d | sys: %d\n", 
+// 		ft_strncmp("abc", "abd", 3), strncmp("abc", "abd", 3));
+// 	printf("test 2 (abc, abd, 2) -> ft: %d | sys: %d\n", 
+// 		ft_strncmp("abc", "abd", 2), strncmp("abc", "abd", 2));
+// 	return (0);
+// }

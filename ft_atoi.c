@@ -36,3 +36,13 @@ int	ft_atoi(const char *str)
 	}
 	return (result * sign);
 }
+/*
+int	main(void)
+{
+	#include <stdio.h>
+	printf("test 1 \"  -42abc\"     -> ft: %d 
+	| sys: %d\n", ft_atoi("  -42abc"), atoi("  -42abc"));
+	printf("test 2 \"-2147483648\" -> ft: %d 
+	| sys: %d\n", ft_atoi("-2147483648"), atoi("-2147483648"));
+	return (0);
+}*/

@@ -26,3 +26,28 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		lastnode->next = new;
 	}
 }
+// #include <stdio.h>
+// #include <stdlib.h>
+
+// int	main(void)
+// {
+// 	t_list	*lst;
+// 	t_list	*a;
+// 	t_list	*b;
+
+// 	a = ft_lstnew("A");
+// 	b = ft_lstnew("B");
+// 	lst = a;
+// 	ft_lstadd_back(&lst, b);
+// 	printf("test 1 -> %s %s 
+// | attendu: A B\n", (char *)lst->content, (char *)lst->next->content);
+// 	free(a);
+// 	free(b);
+// 	lst = NULL;
+// 	b = ft_lstnew("B");
+// 	ft_lstadd_back(&lst, b);
+// 	printf("test 2 (liste vide) -> %s 
+// | attendu: B\n", (char *)lst->content);
+// 	free(b);
+// 	return (0);
+// }

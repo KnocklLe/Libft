@@ -20,3 +20,11 @@ void	ft_putstr_fd(char *s, int fd)
 	while (s[i])
 		write(fd, &s[i++], 1);
 }
+// int	main(void)
+// {
+// 	ft_putstr_fd("test 1 Hello 42\n", 1);
+// 	ft_putstr_fd("test 2 ", 1);
+// 	ft_putstr_fd("", 1);
+// 	ft_putstr_fd("(rien avant ce texte)\n", 1);
+// 	return (0);
+// }

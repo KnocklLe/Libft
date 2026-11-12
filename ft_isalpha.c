@@ -19,3 +19,12 @@ int	ft_isalpha(int c)
 	else
 		return (0);
 }
+/*
+int	main(void)
+{
+	#include <stdio.h>
+	#include <ctype.h>
+	printf("test 1 'a' -> ft: %d | sys: %d\n", ft_isalpha('a'), isalpha('a'));
+	printf("test 2 '5' -> ft: %d | sys: %d\n", ft_isalpha('5'), isalpha('5'));
+	return (0);
+}*/

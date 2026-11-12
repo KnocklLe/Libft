@@ -40,3 +40,17 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	finalstring[i + j] = '\0';
 	return (finalstring);
 }
+// #include <stdio.h>
+// #include <stdlib.h>
+// int	main(void)
+// {
+// 	char	*r;
+
+// 	r = ft_strjoin("Hello ", "World");
+// 	printf("test 1 -> ft: [%s] | attendu: [Hello World]\n", r);
+// 	free(r);
+// 	r = ft_strjoin("", "");
+// 	printf("test 2 -> ft: [%s] | attendu: []\n", r);
+// 	free(r);
+// 	return (0);
+// }

@@ -24,3 +24,10 @@ void	ft_putendl_fd(char *s, int fd)
 	}
 	write(fd, "\n", 1);
 }
+// int	main(void)
+// {
+// 	ft_putendl_fd("test 1 Hello", 1);
+// 	ft_putendl_fd("test 2 (une ligne vide doit suivre)", 1);
+// 	ft_putendl_fd("", 1);
+// 	return (0);
+// }

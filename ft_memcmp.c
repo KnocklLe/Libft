@@ -29,3 +29,13 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	}
 	return (0);
 }
+// #include <stdio.h>
+// #include <string.h>
+// int	main(void)
+// {
+// 	printf("test 1 (abc, abd, 3)   -> ft: %d | sys: %d\n", 
+// 		ft_memcmp("abc", "abd", 3), memcmp("abc", "abd", 3));
+// 	printf("test 2 (\\0a, \\0b, 2) -> ft: %d | sys: %d\n", 
+// 		ft_memcmp("\0a", "\0b", 2), memcmp("\0a", "\0b", 2));
+// 	return (0);
+// }

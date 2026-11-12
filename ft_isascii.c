@@ -19,3 +19,11 @@ int	ft_isascii(int c)
 	else
 		return (0);
 }
+// int	main(void)
+// {
+// 	#include <stdio.h>
+// 	#include <ctype.h>
+// 	printf("test 1 127 -> ft: %d | sys: %d\n", ft_isascii(127), isascii(127));
+// 	printf("test 2 200 -> ft: %d | sys: %d\n", ft_isascii(200), isascii(200));
+// 	return (0);
+// }

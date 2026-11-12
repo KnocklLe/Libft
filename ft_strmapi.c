@@ -34,3 +34,22 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	dest[i] = '\0';
 	return (dest);
 }
+// #include <stdio.h>
+// #include <stdlib.h>
+// char	f(unsigned int i, char c)
+// {
+// 	return (c + i);
+// }
+
+// int	main(void)
+// {
+// 	char	*r;
+
+// 	r = ft_strmapi("aaaa", f);
+// 	printf("test 1 (aaaa) -> ft: %s | attendu: abcd\n", r);
+// 	free(r);
+// 	r = ft_strmapi("", f);
+// 	printf("test 2 (\"\") -> ft: [%s] | attendu: []\n", r);
+// 	free(r);
+// 	return (0);
+// }

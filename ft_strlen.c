@@ -23,3 +23,13 @@ size_t	ft_strlen(const char *str)
 	}
 	return (length);
 }
+// #include <stdio.h>
+// #include <string.h>
+// int	main(void)
+// {
+// 	printf("test 1 \"Hello 42\" -> ft: %zu 
+// 		| sys: %zu\n", ft_strlen("Hello 42"), strlen("Hello 42"));
+// 	printf("test 2 \"\"         -> ft: %zu 
+// 		| sys: %zu\n", ft_strlen(""), strlen(""));
+// 	return (0);
+// }

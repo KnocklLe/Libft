@@ -33,3 +33,24 @@ char	*ft_strdup(const char *s)
 	dest[i] = '\0';
 	return (dest);
 }
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+
+// int	main(void)
+// {
+// 	char	*a;
+// 	char	*b;
+
+// 	a = ft_strdup("Hello 42");
+// 	b = strdup("Hello 42");
+// 	printf("test 1 \"Hello 42\" -> ft: %s | sys: %s\n", a, b);
+// 	free(a);
+// 	free(b);
+// 	a = ft_strdup("");
+// 	b = strdup("");
+// 	printf("test 2 \"\" -> ft: [%s] | sys: [%s]\n", a, b);
+// 	free(a);
+// 	free(b);
+// 	return (0);
+// }

@@ -27,3 +27,15 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)&s[i]);
 	return (NULL);
 }
+// #include <stdio.h>
+// #include <string.h>
+// int	main(void)
+// {
+// 	char	*s = "Hello World";
+
+// 	printf("test 1 'o'  -> ft: %s 
+// 		| sys: %s\n", ft_strchr(s, 'o'), strchr(s, 'o'));
+// 	printf("test 2 '\\0' -> ft: %p 
+// 		| sys: %p\n", ft_strchr(s, '\0'), strchr(s, '\0'));
+// 	return (0);
+// }
