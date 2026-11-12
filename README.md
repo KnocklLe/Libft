@@ -1,7 +1,7 @@
-This project has been created as part of the 42 curriculum by edolemai.
+⚠️This project has been created as part of the 42 curriculum by edolemai.
 
 Libft
-Description
+📋Description📋
 
 Libft is the first project of the 42 Common Core. The goal of this project is to create my own C library by recreating several functions from the standard C library and implementing new useful functions.
 
