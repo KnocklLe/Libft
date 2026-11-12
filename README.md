@@ -228,5 +228,4 @@ Learning by building, understanding by coding.
 <br/>
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00FF88,50:003B25,100:050505&height=100&section=footer" width="100%"/>
-
 </div>
