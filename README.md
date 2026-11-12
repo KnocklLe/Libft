@@ -2,7 +2,7 @@
 
 # Libft
 
-**Your very first own C library**
+**My C library**
 
 ## Description
 
