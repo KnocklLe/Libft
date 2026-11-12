@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 13:38:03 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/09 18:59:31 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/12 08:07:53 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	const unsigned char	*s;
 	size_t				i;
 
+	if (!dest && !src)
+		return (dest);
 	i = 0;
 	d = (unsigned char *)dest;
 	s = (const unsigned char *)src;
