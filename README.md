@@ -1,19 +1,18 @@
-<div align="center">
+⚡ Libft
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:050505,50:003B25,100:00FF88&height=220&section=header&text=LIBFT&fontSize=85&fontColor=00FF88&fontAlignY=38&desc=Building%20my%20own%20C%20library&descAlignY=60&descSize=18&animation=fadeIn" width="100%"/>
+<p align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:050505,50:003B25,100:00FF88&height=180&section=header&text=LIBFT&fontSize=80&fontColor=00FF88&animation=fadeIn" width="100%" />
+</p>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=18&duration=3000&pause=1000&color=00FF88&center=true&vCenter=true&width=600&lines=42+Common+Core+%7C+First+Project;Recreating+the+C+Standard+Library;Memory+Management+%7C+Pointers+%7C+Linked+Lists" />
+<p align="center">
+<img src="https://img.shields.io/badge/42-Common_Core-black?style=for-the-badge&logo=42" />
+<img src="https://img.shields.io/badge/Language-C-blue?style=for-the-badge&logo=c" />
+<img src="https://img.shields.io/badge/Library-libft.a-00CC77?style=for-the-badge" />
+</p>
 
-<br/>
-
-<img src="https://img.shields.io/badge/42-School-black?style=for-the-badge&logo=42&logoColor=white"/>
-<img src="https://img.shields.io/badge/Language-C-blue?style=for-the-badge&logo=c"/>
-<img src="https://img.shields.io/badge/Library-libft.a-00FF88?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/Functions-44-purple?style=for-the-badge"/>
-
-My first step into the world of low-level programming.
-
-</div>
+<p align="center">
+<b>My first step into the world of low-level programming.</b>
+</p>
 
 ⚠️ This project has been created as part of the 42 curriculum by edolemai.
 🖥️ 01 — About the Project
@@ -35,7 +34,7 @@ The final result is a static library called libft.a, which can be reused in futu
 ⚙️ 02 — Installation & Compilation
 Clone the repository
 bash
-git clone YOUR_REPOSITORY_URL
+git clone https://github.com/KnocklLe/Libft.git
 cd Libft
 
 Compile the library
@@ -67,7 +66,7 @@ cc main.c -L. -lft -o program
 
 📚 03 — Library Contents
 
-The library is divided into 3 main parts, containing a total of 44 functions.
+The library is divided into 3 main parts.
 
 🧩 Part 1 — Libc Functions
 
@@ -169,13 +168,10 @@ ft_lstiter	Applies a function to each node's content.
 ft_lstmap	Creates a new list by applying a function to each node.
 📊 04 — Project Statistics
 
-<div align="center">
-
-<img src="https://img.shields.io/badge/Total_Functions-44-00FF88?style=for-the-badge&labelColor=101010"/>
-<img src="https://img.shields.io/badge/Modules-3-7B2CBF?style=for-the-badge&labelColor=101010"/>
-<img src="https://img.shields.io/badge/Language-C-00599C?style=for-the-badge&labelColor=101010"/>
-
-</div>
+<p align="center">
+<img src="https://img.shields.io/badge/Functions-44-00FF88?style=for-the-badge&labelColor=101010" />
+<img src="https://img.shields.io/badge/Parts-3-7B2CBF?style=for-the-badge&labelColor=101010" />
+</p>
 
 Part	Category	Functions
 01	Libc Functions	24
@@ -186,20 +182,14 @@ TOTAL	Libft	44
 
 Through Libft, I developed a better understanding of:
 
-text
-┌──────────────────────────────────────────┐
-│             CORE CONCEPTS                │
-├──────────────────────────────────────────┤
-│  > C Programming                         │
-│  > Pointers & Pointer Arithmetic        │
-│  > Dynamic Memory Allocation             │
-│  > String Manipulation                   │
-│  > Memory Management                     │
-│  > Linked Lists & Data Structures        │
-│  > Makefile & Static Libraries           │
-│  > Debugging & Problem Solving           │
-└──────────────────────────────────────────┘
-
+C Programming
+Pointers & Pointer Arithmetic
+Dynamic Memory Allocation
+String Manipulation
+Memory Management
+Linked Lists & Data Structures
+Makefile & Static Libraries
+Debugging & Problem Solving
 📖 06 — Resources
 42 Libft Subject
 Linux Manual Pages
@@ -215,17 +205,18 @@ The objective was to use these resources to strengthen my knowledge, improve my 
 
 👤 08 — Author
 
-<div align="center">
+<p align="center">
+<img src="https://img.shields.io/badge/42-Student-black?style=for-the-badge&logo=42" />
+</p>
 
-<img src="https://img.shields.io/badge/42-Student-black?style=for-the-badge&logo=42&logoColor=white"/>
+<h3 align="center">edolemai</h3>
 
-edolemai
+<p align="center">
+<i>42 Student | C Developer</i>
+<br><br>
+<b>Learning by building, understanding by coding.</b>
+</p>
 
-42 Student | C Developer
-
-Learning by building, understanding by coding.
-
-<br/>
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00FF88,50:003B25,100:050505&height=100&section=footer" width="100%"/>
-</div>
+<p align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00FF88,50:003B25,100:050505&height=100&section=footer" width="100%" />
+</p>
