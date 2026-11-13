@@ -27,12 +27,6 @@ fclean: clean
 
 re: fclean all
 
-main:
-	@$(CC) $(FLAGS) $(SOURCES) main.c
-	@./a.out
-	@rm a.out
-
-
 testfiles:
 	@for file in $(SOURCES); do \
 		if [ ! -f "$$file" ]; then \
@@ -43,6 +37,7 @@ testfiles:
 	done
 
 test:
-	
+	@sh test/run_tests.sh
 
-.PHONY: all clean fclean re testfiles
+
+.PHONY: all clean fclean re testfiles test
