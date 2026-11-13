@@ -1,0 +1,14 @@
+--- a/test/main.c
++++ b/test/main.c
+@@ -2367,5 +2367,12 @@
+ int main(void)
+ {
++    /*
++     * Les tests sont exécutés avec stdout redirigé vers un journal.
++     * Sans _IONBF, les messages peuvent rester dans le buffer et être
++     * perdus si un test provoque un SIGSEGV ou un autre crash.
++     */
++    setvbuf(stdout, NULL, _IONBF, 0);
++
+     printf("===== TEST COMPLET LIBFT v19.3 (43 fonctions) =====\n");
+     printf("graine initiale = 0x42C0FFEE ; tours par fonction ~%d\n", TOURS);
