@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 14:45:30 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/06 11:25:15 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/13 08:33:12 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,12 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 // 	char	*r;
 
 // 	r = ft_substr("Hello World", 6, 5);
-// 	printf("test 1 (Hello World, 6, 5) -> ft: [%s] 
+// 	printf("test 1 (Hello World, 6, 5) -> ft: [%s]
 // 		| attendu: [World]\n", r);
 // 	free(r);
 // 	r = ft_substr("Hello", 10, 3);
-// 	printf("test 2 (Hello, 10, 3)      -> ft: [%s] 
+// 	printf("test 2 (Hello, 10, 3)      -> ft: [%s]
 // 		| attendu: []\n", r);
 // 	free(r);
 // 	return (0);
 // }
-

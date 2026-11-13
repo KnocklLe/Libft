@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 13:38:03 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/12 08:07:53 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/13 08:34:26 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 
 // 	ft_memcpy(a, "Hello", 6);
 // 	memcpy(b, "Hello", 6);
-// 	printf("test 1 \"Hello\" -> ft: %s | sys: %s\n", a, b);
+// 	printf("test 1 \"Hello\" -> ft: %s
+// | sys: %s\n", a, b);
 // 	ft_memcpy(c, src, sizeof(src));
 // 	memcpy(d, src, sizeof(src));
-// 	printf("test 2 int[3] -> ft: %d %d %d 
+// 	printf("test 2 int[3] -> ft: %d %d %d
 // 		| sys: %d %d %d\n", c[0], c[1], c[2], d[0], d[1], d[2]);
 // 	return (0);
 // }
-

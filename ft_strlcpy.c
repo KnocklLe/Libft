@@ -38,8 +38,10 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 // 	size_t	ret;
 
 // 	ret = ft_strlcpy(dst, "Hello", 10);
-// 	printf("test 1 size 10 -> ret: %zu, dst: %s | attendu: 5, Hello\n", ret, dst);
+// 	printf("test 1 size 10 -> ret: %zu, dst: %s
+// | attendu: 5, Hello\n", ret, dst);
 // 	ret = ft_strlcpy(dst, "Hello", 3);
-// 	printf("test 2 size 3  -> ret: %zu, dst: %s | attendu: 5, He\n", ret, dst);
+// 	printf("test 2 size 3  -> ret: %zu, dst: %s
+// | attendu: 5, He\n", ret, dst);
 // 	return (0);
 // }

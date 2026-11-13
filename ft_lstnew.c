@@ -6,7 +6,7 @@
 /*   By: edolemai <edolemai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 13:29:13 by edolemai          #+#    #+#             */
-/*   Updated: 2026/11/09 13:26:49 by edolemai         ###   ########.fr       */
+/*   Updated: 2026/11/13 08:33:45 by edolemai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ t_list	*ft_lstnew(void *content)
 // 	t_list	*n;
 
 // 	n = ft_lstnew("Hello");
-// 	printf("test 1 -> content: %s, next: %p | attendu: Hello, (nil)\n", (char *)n->content, (void *)n->next);
+// 	printf("test 1 -> content: %s, next: %p
+// | attendu: Hello, (nil)\n", (char *)n->content, (void *)n->next);
 // 	free(n);
 // 	n = ft_lstnew(NULL);
-// 	printf("test 2 -> content: %p, next: %p | attendu: (nil), (nil)\n", n->content, (void *)n->next);
+// 	printf("test 2 -> content: %p, next: %p
+// | attendu: (nil), (nil)\n", n->content, (void *)n->next);
 // 	free(n);
 // 	return (0);
 // }
