@@ -42,4 +42,7 @@ testfiles:
 		fi; \
 	done
 
-.PHONY: all clean fclean re main testfiles name
+test:
+	
+
+.PHONY: all clean fclean re testfiles
