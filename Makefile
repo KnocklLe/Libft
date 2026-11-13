@@ -27,17 +27,15 @@ fclean: clean
 
 re: fclean all
 
-testfiles:
+test:
+	@sh test/run_tests.sh
+	@sh test/text_prototypes.sh
 	@for file in $(SOURCES); do \
 		if [ ! -f "$$file" ]; then \
-			echo "[ERREUR] : $$file WRONG NAME !"; \
+			printf "\033[0;31m[KO]\033[0m : %s WRONG NAME !\n" "$$file"; \
 		else \
-			echo "[OK] : $$file FOUND"; \
+			printf "\033[0;32m[OK]\033[0m : %s FOUND\n" "$$file"; \
 		fi; \
 	done
 
-test:
-	@sh test/run_tests.sh
-
-
-.PHONY: all clean fclean re testfiles test
+.PHONY: all clean fclean re test
