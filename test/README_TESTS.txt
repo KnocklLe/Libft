@@ -1,57 +1,69 @@
-TESTS LIBFT V19.3 - VERSION COMPLETE
-===================================
+TESTS LIBFT V20 - LE GROS MAIN
+==============================
 
-FICHIERS
-  main.c       : tests des 43 fonctions, comparaison libc/references,
-                 tests aleatoires reproductibles, cas limites, sortie fd exacte,
-                 listes, injections d'echecs d'allocation.
-  run_tests.sh : lance deux executables distincts, sans modifier le depot.
+UN SEUL PROGRAMME QUI FAIT TOUT
+  1. NORMINETTE  : tous les .c / .h de la racine (pas le dossier test/).
+                   Pour chaque erreur : ligne, colonne, code, message de
+                   norminette ET explication en francais.
+  2. TESTS DE BASE (les anciens tests, ~1,66 million de verifications) :
+                   comparaison libc / references, aleatoire reproductible,
+                   cas limites, sorties fd exactes, listes, malloc en echec.
+  3. FRANCINETTE : les tests des 4 testeurs utilises par francinette
+                   (https://github.com/xicodomingues/francinette) portes en C :
+                   fsoares, Tripouille (libftTester), alelievr
+                   (libft-unit-test) et war-machine.
+
+AFFICHAGE
+  [OK] en vert  : tout est bon.
+  [KO] en rouge : erreur. Sous la ligne, pour chaque erreur :
+      x test/fr_part2.c:310 [fsoares] ft_substr("", 0, 0)   <- fichier:ligne
+          attendu : ""                                      <- du test
+          obtenu  : "#"
+        -> explication de ce que la fonction aurait du faire
+  Les CRASHS sont attrapes (chaque groupe tourne dans son propre processus) :
+  segfault, bus error, abort (double free...), boucle infinie (TIMEOUT).
+  Le message donne l'appel qui a crashe, la ligne, et la cause probable.
+
+  Pendant le suivi de malloc, chaque bloc alloue est rempli de '#' :
+  si tu vois des '#' dans "obtenu", tu as oublie le '\0' final.
 
 UTILISATION
-  1. Extraire ces fichiers a la racine de la Libft (avec le Makefile, libft.h).
-  2. Lancer : sh run_tests.sh
-  3. Lire chaque [FAIL] et le resume final de chaque executable.
+  sh test/run_tests.sh                 tout (make re + compilation + tests)
+  sh test/run_tests.sh ft_split        seulement francinette pour ft_split
+  sh test/run_tests.sh --norme         seulement la norminette
+  sh test/run_tests.sh --base          seulement les tests de base
+  sh test/run_tests.sh --francinette   seulement francinette
+  sh test/run_tests.sh --sans-norme    tout sauf la norminette
+  TEST_TIMEOUT=30 sh test/run_tests.sh delai avant TIMEOUT (defaut 10 s)
+  make test                            (regle existante du Makefile)
 
-OU MANUELLEMENT
-  make re
-  cc -Wall -Wextra -Werror main.c libft.a -o test_libft
-  ./test_libft
+FICHIERS
+  test.h        API commune (verifications V_*, T_*, suivi malloc...)
+  framework.c   implementation : memoire partagee, fork, malloc, fd...
+  main.c        tests de base + le main qui enchaine tout + bilan
+  norminette.c  lancement et analyse de norminette (+ explications FR)
+  fr_part1.c    francinette : partie 1 (is*, to*, mem*, str*, atoi...)
+  fr_part2.c    francinette : partie 2 (substr, join, trim, split, itoa...)
+  fr_bonus.c    francinette : bonus (ft_lst*)
+  run_tests.sh  compile la libft puis le banc, puis l'execute
+  text_prototypes.sh   verifie les prototypes de libft.h
 
-  cc -Wall -Wextra -Werror -DTEST_WRAP_MALLOC main.c libft.a \
-    -Wl,--wrap=malloc -Wl,--wrap=free -o test_libft_malloc
-  ./test_libft_malloc
+SUIVI DE MALLOC (Linux)
+  Le banc est lie avec -Wl,--wrap=malloc -Wl,--wrap=free (editeur de liens
+  GNU). Il verifie alors : taille EXACTE de chaque malloc, absence de fuites,
+  et protection : chaque malloc est force a NULL tour a tour, la fonction
+  doit renvoyer NULL et liberer ce qu'elle avait deja alloue.
+  Sur macOS (pas de --wrap) le script compile sans : ces controles sont
+  sautes (message jaune [--]).
 
-POURQUOI DEUX MODES ?
-  Le mode normal applique toutes les validations du sujet.
-  Le mode malloc ajoute une interception, a l'edition des liens, des appels
-  a malloc/free par la bibliotheque. Il simule un echec a chaque allocation,
-  controle les retours NULL, les fuites de noeuds, les contenus liberes et
-  les nettoyages de ft_split et ft_lstmap.
-  L'option -Wl,--wrap fonctionne avec GNU ld (Linux). Elle NE change PAS
-  les options requises pour construire la Libft elle-meme.
-
-VERIFICATION MEMOIRE OPTIONNELLE
-  Il est aussi possible d'utiliser Valgrind :
-    valgrind --leak-check=full --show-leak-kinds=all ./test_libft
-  ou AddressSanitizer apres reconstruction de la libft avec les flags
-  d'instrumentation. Ce sont des outils de diagnostic hors evaluation,
-  et non des exigences supplementaires du sujet.
+CE QUI N'EST PAS TESTE (volontairement)
+  - Les tests alelievr "*_null*" (crash attendu quand on passe NULL) : le
+    sujet ne demande rien pour NULL.
+  - Les tests de vitesse d'alelievr.
+  - Les fonctions qui ne sont pas dans la libft actuelle (strcpy, strcat,
+    memccpy, strsplit...).
 
 IMPORTANT
-  Aucun -std=c99, -std=c11 ni autre flag de standard C n'est utilise.
-  Le fichier main.c est UNIQUEMENT un test : NE PAS l'ajouter aux sources
-  soumises ou aux fichiers archives dans libft.a.
-  Ce banc ne peut pas prouver une equivalence pour TOUTES les entrees
-  mathematiquement possibles. Il evite deliberement les comportements
-  indéfinis (NULL pour strlen, chevauchement pour memcpy, atoi hors plage).
-  ft_strncmp/ft_memcmp comparent le SIGNE du resultat lorsque la manpage
-  ne garantit pas la valeur numerique exacte du delta.
-
-VALIDATION DE CETTE LIVRAISON
-  main.c compile avec cc -Wall -Wextra -Werror.
-  Le mode normal : 1 663 258 verifications, 0 erreur sur une reference.
-  Le mode injection : 1 663 298 verifications, 0 erreur sur une reference
-  adaptee pour permettre l'injection. Le banc d'injection signale bien
-  une version de reference volontairement fuyante de ft_split.
-  La bibliotheque du GitHub n'a PAS pu etre clonee dans ce conteneur ;
-  executer ce banc dans son depot pour obtenir ses resultats reels.
+  Le dossier test/ n'est PAS a la norme : NE PAS le rendre sur le depot
+  d'evaluation (vogsphere), sinon la norminette de la moulinette echoue.
+  Aucun flag de standard (-std=...) n'est utilise.

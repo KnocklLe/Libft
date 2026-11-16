@@ -1,28 +1,29 @@
 /*
-** Tests Libft v19.3 - 43 fonctions (parties 1, 2 et 3)
-** V4 : tests exhaustifs bornes, callbacks, fichiers FD et malloc en echec.
-** Compile sans -std : cc -Wall -Wextra -Werror main.c libft.a -o test_libft
-** -DTEST_WRAP_MALLOC et -Wl,--wrap=malloc,--wrap=free : injections optionnelles.
-** Ne pas ajouter ce fichier aux SOURCES du Makefile du projet.
+** Tests Libft v20 - LE GROS MAIN : norminette + tests de base + francinette.
+**
+**  1. Norminette sur tous les .c/.h de la racine (pas le dossier test/).
+**  2. Tests de base (43 fonctions) : comparaison libc/references, aleatoire
+**     reproductible, cas limites, sorties fd exactes, listes, malloc en echec.
+**  3. Tests portes de francinette : fsoares, Tripouille, alelievr, war-machine.
+**
+** Chaque erreur affiche [KO] en rouge, le fichier:ligne du test, l'appel,
+** l'attendu, l'obtenu et une explication. Chaque groupe tourne dans un
+** processus a part : un segfault / bus error / abort / boucle infinie est
+** attrape et explique au lieu de tout arreter.
+**
+** Compilation (voir run_tests.sh) :
+**   cc -Wall -Wextra -Werror -DTEST_WRAP_MALLOC test/main.c test/framework.c
+**      test/norminette.c test/fr_part1.c test/fr_part2.c test/fr_bonus.c
+**      libft.a -Wl,--wrap=malloc -Wl,--wrap=free -o test/test_libft
+** Sans --wrap (macOS) : enlever -DTEST_WRAP_MALLOC et les -Wl, (les
+** verifications de taille de malloc / fuites / echecs forces sont sautees).
+** Ne pas ajouter ces fichiers aux SOURCES du Makefile du projet.
 */
-#include "../libft.h"
-#include <ctype.h>
-#include <limits.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdint.h>
-#include <fcntl.h>
+#include "test.h"
 
 #define TOURS 1500
 #define CAP 256
 
-static unsigned long g_tests;
-static unsigned long g_erreurs;
-static unsigned long g_debut_tests;
-static unsigned long g_debut_erreurs;
-static const char *g_fonction;
 static unsigned int g_graine = 0x42C0FFEEu;
 static int g_destructions;
 
@@ -67,35 +68,79 @@ static void octets_aleatoires(unsigned char *dst, size_t taille)
     }
 }
 
-static void verifier(int ok, const char *details, ...)
-{
-    va_list args;
+/*
+** verifier(ok, "details %d", ...) : chaque echec est note avec la ligne
+** de ce fichier (test/main.c:LIGNE) et affiche sous la ligne [KO].
+*/
+#define verifier(ok, ...) verif(__LINE__, !!(ok), \
+    "condition attendue par le test : " #ok, __VA_ARGS__)
 
-    g_tests++;
-    if (ok)
-        return ;
-    g_erreurs++;
-    if (g_erreurs > 80)
-        return ;
-    printf("\n  [FAIL] %s : ", g_fonction);
-    va_start(args, details);
-    vprintf(details, args);
-    va_end(args);
+/* Note toutes les fonctions ft_xxx citees dans "nom" comme KO (bilan). */
+static void noter_ko_noms(const char *nom)
+{
+    char mot[64];
+    const char *p;
+    size_t i;
+    int trouve;
+
+    trouve = 0;
+    p = nom;
+    while ((p = strstr(p, "ft_")) != NULL)
+    {
+        i = 0;
+        while (i < sizeof(mot) - 1 && (isalnum((unsigned char)p[i])
+                || p[i] == '_'))
+        {
+            mot[i] = p[i];
+            i++;
+        }
+        mot[i] = '\0';
+        bac_noter_ko(mot);
+        trouve = 1;
+        p += i;
+    }
+    if (!trouve)
+        bac_noter_ko(nom);
 }
+
+/* Affiche la ligne [OK]/[KO] d'un groupe puis le detail des erreurs. */
+static void afficher_groupe(const char *nom, unsigned long tests,
+    unsigned long erreurs, int crash)
+{
+    if (erreurs == 0)
+        printf(TAG_OK " %-52s " GRIS "%lu tests" NC "\n", nom, tests);
+    else
+    {
+        printf(TAG_KO " %-52s " ROUGE "%lu erreur%s" NC GRIS
+            " / %lu tests%s" NC "\n", nom, erreurs, erreurs > 1 ? "s" : "",
+            tests, crash ? " (CRASH)" : "");
+        fwrite(g_bac->journal, 1, g_bac->taille_journal, stdout);
+        if (erreurs > g_bac->affiches + (unsigned long)crash)
+            printf("    " GRIS "... et %lu autre(s) erreur(s) non affichee(s)"
+                NC "\n", erreurs - g_bac->affiches - (unsigned long)crash);
+        noter_ko_noms(nom);
+    }
+}
+
+static void fin(void);
 
 static void debut(const char *nom)
 {
-    g_fonction = nom;
-    g_debut_tests = g_tests;
-    g_debut_erreurs = g_erreurs;
+    if (g_bac->ouvert)
+        fin();
+    bac_reset_groupe(nom, "");
+    g_bac->ouvert = 1;
+    alarm((unsigned int)(delai_test() * 3));
 }
 
 static void fin(void)
 {
-    printf("%s %s (%lu tests, %lu erreurs)\n",
-        g_erreurs == g_debut_erreurs ? "[OK]  " : "[FAIL]",
-        g_fonction, g_tests - g_debut_tests,
-        g_erreurs - g_debut_erreurs);
+    afficher_groupe(g_bac->fonction, g_bac->tests, g_bac->erreurs, 0);
+    g_bac->total_tests += g_bac->tests;
+    g_bac->total_erreurs += g_bac->erreurs;
+    g_bac->tests = 0;
+    g_bac->erreurs = 0;
+    g_bac->ouvert = 0;
 }
 
 static int signe(int n)
@@ -2108,85 +2153,12 @@ static void test_listes_etendues(void)
 
 #ifdef TEST_WRAP_MALLOC
 /*
-** Test d'allocations forcees en erreur par l'editeur de liens GNU.
-** Ce bloc n'est compile QUE pour le second executable du script.
-** __wrap_malloc enregistre chaque allocation provenant de libft.a.
+** Tests d'allocations forcees en erreur (editeur de liens GNU, --wrap).
+** __wrap_malloc / __wrap_free sont dans framework.c ; on utilise ici
+** preparer_injection(n), allocations_restantes(), g_trace_active, ...
 */
-#define TRACES_ALLOC 8192
-static void *g_pointeurs_alloc[TRACES_ALLOC];
-static unsigned char g_pointeurs_vivants[TRACES_ALLOC];
-static size_t g_nombre_alloc;
-static size_t g_total_alloc;
-static size_t g_echec_au;
-static size_t g_nombres_echecs;
-static int g_trace_active;
 static size_t g_cb_crees;
 static size_t g_cb_liberes;
-
-void *__real_malloc(size_t taille);
-void __real_free(void *ptr);
-
-void *__wrap_malloc(size_t taille)
-{
-    void *ptr;
-
-    if (g_trace_active)
-    {
-        g_total_alloc++;
-        if (g_echec_au && g_total_alloc == g_echec_au)
-        {
-            g_nombres_echecs++;
-            return (NULL);
-        }
-    }
-    ptr = __real_malloc(taille);
-    if (g_trace_active && ptr && g_nombre_alloc < TRACES_ALLOC)
-    {
-        g_pointeurs_alloc[g_nombre_alloc] = ptr;
-        g_pointeurs_vivants[g_nombre_alloc] = 1;
-        g_nombre_alloc++;
-    }
-    return (ptr);
-}
-
-void __wrap_free(void *ptr)
-{
-    size_t i;
-
-    i = g_nombre_alloc;
-    while (i > 0)
-    {
-        i--;
-        if (g_pointeurs_alloc[i] == ptr && g_pointeurs_vivants[i])
-        {
-            g_pointeurs_vivants[i] = 0;
-            break ;
-        }
-    }
-    __real_free(ptr);
-}
-
-static void preparer_injection(size_t echec_au)
-{
-    g_trace_active = 0;
-    g_nombre_alloc = 0;
-    g_total_alloc = 0;
-    g_echec_au = echec_au;
-    g_nombres_echecs = 0;
-    g_trace_active = 1;
-}
-
-static size_t allocations_restantes(void)
-{
-    size_t i;
-    size_t nombre;
-
-    nombre = 0;
-    for (i = 0; i < g_nombre_alloc; i++)
-        if (g_pointeurs_vivants[i])
-            nombre++;
-    return (nombre);
-}
 
 static void *cb_mapper_injection(void *element)
 {
@@ -2364,48 +2336,338 @@ static void test_injection_malloc(void)
 #endif
 
 
-int main(void)
+/* ========================================================================== */
+/*                              LE GROS MAIN                                  */
+/* ========================================================================== */
+
+typedef struct s_serie
 {
-    printf("===== TEST COMPLET LIBFT v19.3 (43 fonctions) =====\n");
-    printf("graine initiale = 0x42C0FFEE ; tours par fonction ~%d\n", TOURS);
-    printf("Ne tester que les entrees definies par le sujet/man.\n\n");
-    test_is_et_casse();
-    test_strlen_et_dup();
-    test_chr_et_ncmp();
-    test_strnstr();
-    test_strl();
-    test_memset_bzero();
-    test_memcpy_move();
-    test_memchr_cmp();
-    test_calloc();
-    test_atoi_itoa();
-    test_substr_join_trim();
-    test_split();
-    test_mapi_iteri();
-    test_putfd();
-    test_lstnew();
-    test_lstadd_front_back();
-    test_lstsize_last();
-    test_lstdelone_clear();
-    test_lstiter_map();
-    printf("\n===== TESTS EXPLICITES : LF/CR/TAB/NUL =====\n");
-    test_controles_chaines();
-    test_controles_memoire();
-    test_controles_supplementaires();
-    test_controles_sorties();
-    test_fd_renforces();
-    printf("\n===== TESTS EXHAUSTIFS ET CAS LIMITES =====\n");
-    test_exhaustif_petites_chaines();
-    test_exhaustif_memoire();
-    test_callbacks_nul();
-    test_bornes_allocation();
-    test_listes_etendues();
-    test_grandes_chaines();
+    const char *titre;
+    void (*f)(void);
+} t_serie;
+
+/* titre != NULL : affiche un bandeau de section avant la serie */
+static const t_serie g_series[] = {
+    {"TESTS DE BASE : 43 fonctions (libc / references / aleatoire)",
+        test_is_et_casse},
+    {NULL, test_strlen_et_dup},
+    {NULL, test_chr_et_ncmp},
+    {NULL, test_strnstr},
+    {NULL, test_strl},
+    {NULL, test_memset_bzero},
+    {NULL, test_memcpy_move},
+    {NULL, test_memchr_cmp},
+    {NULL, test_calloc},
+    {NULL, test_atoi_itoa},
+    {NULL, test_substr_join_trim},
+    {NULL, test_split},
+    {NULL, test_mapi_iteri},
+    {NULL, test_putfd},
+    {NULL, test_lstnew},
+    {NULL, test_lstadd_front_back},
+    {NULL, test_lstsize_last},
+    {NULL, test_lstdelone_clear},
+    {NULL, test_lstiter_map},
+    {"TESTS EXPLICITES : LF / CR / TAB / NUL", test_controles_chaines},
+    {NULL, test_controles_memoire},
+    {NULL, test_controles_supplementaires},
+    {NULL, test_controles_sorties},
+    {NULL, test_fd_renforces},
+    {"TESTS EXHAUSTIFS ET CAS LIMITES", test_exhaustif_petites_chaines},
+    {NULL, test_exhaustif_memoire},
+    {NULL, test_callbacks_nul},
+    {NULL, test_bornes_allocation},
+    {NULL, test_listes_etendues},
+    {NULL, test_grandes_chaines},
 #ifdef TEST_WRAP_MALLOC
-    test_injection_malloc();
+    {NULL, test_injection_malloc},
 #endif
-    printf("\nRESULTAT : %lu tests, %lu erreurs\n", g_tests, g_erreurs);
-    if (g_erreurs)
+    {NULL, NULL}
+};
+
+/* Ordre du sujet */
+static const char *g_fonctions[] = {
+    "ft_isalpha", "ft_isdigit", "ft_isalnum", "ft_isascii", "ft_isprint",
+    "ft_strlen", "ft_memset", "ft_bzero", "ft_memcpy", "ft_memmove",
+    "ft_strlcpy", "ft_strlcat", "ft_toupper", "ft_tolower", "ft_strchr",
+    "ft_strrchr", "ft_strncmp", "ft_memchr", "ft_memcmp", "ft_strnstr",
+    "ft_atoi", "ft_calloc", "ft_strdup", "ft_substr", "ft_strjoin",
+    "ft_strtrim", "ft_split", "ft_itoa", "ft_strmapi", "ft_striteri",
+    "ft_putchar_fd", "ft_putstr_fd", "ft_putendl_fd", "ft_putnbr_fd",
+    "ft_lstnew", "ft_lstadd_front", "ft_lstsize", "ft_lstlast",
+    "ft_lstadd_back", "ft_lstdelone", "ft_lstclear", "ft_lstiter",
+    "ft_lstmap", NULL
+};
+
+static void titre(const char *t)
+{
+    printf("\n" BLEU "==================== %s ====================" NC "\n", t);
+}
+
+/* Execute une serie de tests de base dans un processus isole. */
+static void lancer_serie(void (*f)(void))
+{
+    int sig;
+
+    bac_reset_groupe("", "");
+    sig = executer_isole(f, delai_test() * 30);
+    if (sig != 0)
+    {
+        if (!g_bac->ouvert || !g_bac->fonction[0])
+            snprintf(g_bac->fonction, sizeof(g_bac->fonction),
+                "(serie de tests)");
+        journal_crash(sig);
+        afficher_groupe(g_bac->fonction, g_bac->tests, g_bac->erreurs, 1);
+        printf("    " JAUNE "-> la suite de cette serie n'a pas pu etre "
+            "executee (corrige le crash puis relance)" NC "\n");
+    }
+    g_bac->total_tests += g_bac->tests;
+    g_bac->total_erreurs += g_bac->erreurs;
+    g_bac->tests = 0;
+    g_bac->erreurs = 0;
+    g_bac->ouvert = 0;
+}
+
+/* Lance tous les testeurs francinette d'une fonction et affiche 1 ligne. */
+static void francinette_fonction(const char *nom)
+{
+    const t_test_fr *tables[3];
+    char etat[512];
+    size_t pos;
+    unsigned long tests;
+    unsigned long erreurs;
+    unsigned long caches;
+    int t;
+    int i;
+    int sig;
+    int n;
+
+    tables[0] = g_fr_part1;
+    tables[1] = g_fr_part2;
+    tables[2] = g_fr_bonus;
+    bac_reset_groupe(nom, "");
+    etat[0] = '\0';
+    pos = 0;
+    tests = 0;
+    erreurs = 0;
+    caches = 0;
+    n = 0;
+    for (t = 0; t < 3; t++)
+        for (i = 0; tables[t][i].fonction; i++)
+        {
+            if (strcmp(tables[t][i].fonction, nom) != 0)
+                continue ;
+            g_bac->tests = 0;
+            g_bac->erreurs = 0;
+            g_bac->affiches = 0;
+            g_bac->ligne = 0;
+            g_bac->appel[0] = '\0';
+            g_bac->fichier[0] = '\0';
+            snprintf(g_bac->source, sizeof(g_bac->source), "%s",
+                tables[t][i].source);
+            sig = executer_isole(tables[t][i].test, delai_test());
+            if (sig != 0)
+                journal_crash(sig);
+            tests += g_bac->tests;
+            erreurs += g_bac->erreurs;
+            if (g_bac->erreurs > g_bac->affiches + (sig != 0))
+                caches += g_bac->erreurs - g_bac->affiches - (sig != 0);
+            if (pos < sizeof(etat) - 64)
+            {
+                if (sig != 0)
+                    pos += snprintf(etat + pos, sizeof(etat) - pos,
+                        " " ROUGE "%s(CRASH)" NC, tables[t][i].source);
+                else if (g_bac->erreurs)
+                    pos += snprintf(etat + pos, sizeof(etat) - pos,
+                        " " ROUGE "%s(%lu)" NC, tables[t][i].source,
+                        g_bac->erreurs);
+                else
+                    pos += snprintf(etat + pos, sizeof(etat) - pos,
+                        " " VERT "%s" NC, tables[t][i].source);
+            }
+            n++;
+        }
+    g_bac->tests = 0;
+    g_bac->erreurs = 0;
+    if (n == 0)
+    {
+        printf(JAUNE "[--]" NC " %-16s aucun test francinette\n", nom);
+        return ;
+    }
+    g_bac->total_tests += tests;
+    g_bac->total_erreurs += erreurs;
+    if (erreurs == 0)
+    {
+        printf(TAG_OK " %-16s%s  " GRIS "%lu tests" NC "\n", nom, etat, tests);
+        return ;
+    }
+    printf(TAG_KO " %-16s%s  " ROUGE "%lu erreur%s" NC GRIS " / %lu tests"
+        NC "\n", nom, etat, erreurs, erreurs > 1 ? "s" : "", tests);
+    fwrite(g_bac->journal, 1, g_bac->taille_journal, stdout);
+    if (caches)
+        printf("    " GRIS "... et %lu autre(s) erreur(s) non affichee(s)"
+            NC "\n", caches);
+    bac_noter_ko(nom);
+}
+
+static void aide(const char *prog)
+{
+    printf("Utilisation : %s [options] [ft_fonction ...]\n"
+        "  (sans option)    norminette + tests de base + francinette\n"
+        "  --norme          seulement la norminette\n"
+        "  --base           seulement les tests de base\n"
+        "  --francinette    seulement les tests francinette\n"
+        "  --sans-norme     tout sauf la norminette\n"
+        "  ft_split ...     seulement les tests francinette de ces fonctions\n"
+        "Variable TEST_TIMEOUT=secondes : delai avant de declarer une boucle "
+        "infinie (defaut 10).\n", prog);
+}
+
+static int est_choisie(const char *nom, int argc, char **argv)
+{
+    int i;
+    int filtre;
+
+    filtre = 0;
+    for (i = 1; i < argc; i++)
+    {
+        if (strncmp(argv[i], "ft_", 3) != 0)
+            continue ;
+        filtre = 1;
+        if (strcmp(argv[i], nom) == 0)
+            return (1);
+    }
+    return (!filtre);
+}
+
+static void ligne_bilan(const char *quoi, unsigned long tests,
+    unsigned long erreurs)
+{
+    if (erreurs == 0)
+        printf("  %-16s: " VERT "OK" NC "  " GRIS "(%lu verifications)" NC
+            "\n", quoi, tests);
+    else
+        printf("  %-16s: " ROUGE "KO, %lu erreur%s" NC "  " GRIS
+            "(%lu verifications)" NC "\n", quoi, erreurs,
+            erreurs > 1 ? "s" : "", tests);
+}
+
+int main(int argc, char **argv)
+{
+    int faire_norme;
+    int faire_base;
+    int faire_fr;
+    int norme_ko;
+    int nb_fichiers;
+    int i;
+    unsigned long avant_tests;
+    unsigned long avant_err;
+    unsigned long base_tests;
+    unsigned long base_err;
+    unsigned long fr_tests;
+    unsigned long fr_err;
+
+    setvbuf(stdout, NULL, _IONBF, 0);
+    signal(SIGPIPE, SIG_IGN);
+    bac_init();
+    faire_norme = 1;
+    faire_base = 1;
+    faire_fr = 1;
+    for (i = 1; i < argc; i++)
+    {
+        if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--aide")
+            || !strcmp(argv[i], "--help"))
+            return (aide(argv[0]), 0);
+        if (!strcmp(argv[i], "--norme"))
+            faire_base = 0, faire_fr = 0;
+        else if (!strcmp(argv[i], "--base"))
+            faire_norme = 0, faire_fr = 0;
+        else if (!strcmp(argv[i], "--francinette"))
+            faire_norme = 0, faire_base = 0;
+        else if (!strcmp(argv[i], "--sans-norme"))
+            faire_norme = 0;
+        else if (!strncmp(argv[i], "ft_", 3))
+            faire_norme = 0, faire_base = 0;
+        else
+            return (aide(argv[0]), 2);
+    }
+    if (access("libft.h", F_OK) != 0 && access("../libft.h", F_OK) == 0)
+        if (chdir("..") != 0)
+            perror("chdir");
+    printf(GRAS "================ TEST COMPLET LIBFT : LE GROS MAIN "
+        "================" NC "\n");
+    printf(GRIS "[OK] en vert = bon ; [KO] en rouge = erreur, avec "
+        "fichier:ligne du test, l'appel, attendu / obtenu et une "
+        "explication." NC "\n");
+    if (g_malloc_dispo)
+        printf(GRIS "Suivi de malloc ACTIF : taille exacte, fuites et "
+            "malloc forces a NULL sont verifies." NC "\n");
+    else
+        printf(JAUNE "[--] Suivi de malloc indisponible (pas de "
+            "-Wl,--wrap) : tailles, fuites et protections malloc NON "
+            "verifiees." NC "\n");
+    norme_ko = 0;
+    nb_fichiers = 0;
+    if (faire_norme)
+    {
+        titre("NORMINETTE (fichiers .c / .h de la racine)");
+        norme_ko = norminette_verifier(".", &nb_fichiers);
+    }
+    base_tests = 0;
+    base_err = 0;
+    if (faire_base)
+    {
+        avant_tests = g_bac->total_tests;
+        avant_err = g_bac->total_erreurs;
+        for (i = 0; g_series[i].f; i++)
+        {
+            if (g_series[i].titre)
+                titre(g_series[i].titre);
+            lancer_serie(g_series[i].f);
+        }
+        base_tests = g_bac->total_tests - avant_tests;
+        base_err = g_bac->total_erreurs - avant_err;
+    }
+    fr_tests = 0;
+    fr_err = 0;
+    if (faire_fr)
+    {
+        titre("FRANCINETTE : fsoares / Tripouille / alelievr / war-machine");
+        avant_tests = g_bac->total_tests;
+        avant_err = g_bac->total_erreurs;
+        for (i = 0; g_fonctions[i]; i++)
+            if (est_choisie(g_fonctions[i], argc, argv))
+                francinette_fonction(g_fonctions[i]);
+        fr_tests = g_bac->total_tests - avant_tests;
+        fr_err = g_bac->total_erreurs - avant_err;
+    }
+    titre("BILAN");
+    if (faire_norme)
+    {
+        if (norme_ko < 0)
+            printf("  %-16s: " JAUNE "non verifiee (norminette introuvable)"
+                NC "\n", "Norminette");
+        else if (norme_ko == 0)
+            printf("  %-16s: " VERT "OK" NC "  " GRIS "(%d fichiers)" NC "\n",
+                "Norminette", nb_fichiers);
+        else
+            printf("  %-16s: " ROUGE "KO, %d fichier%s sur %d" NC "\n",
+                "Norminette", norme_ko, norme_ko > 1 ? "s" : "", nb_fichiers);
+    }
+    if (faire_base)
+        ligne_bilan("Tests de base", base_tests, base_err);
+    if (faire_fr)
+        ligne_bilan("Francinette", fr_tests, fr_err);
+    printf("  %-16s: %s\n", "Suivi malloc", g_malloc_dispo
+        ? VERT "actif" NC : JAUNE "inactif (pas de --wrap)" NC);
+    if (g_bac->liste_ko[0])
+        printf("  %-16s:" ROUGE "%s" NC "\n", "A corriger", g_bac->liste_ko);
+    if (norme_ko > 0 || base_err || fr_err)
+    {
+        printf("\n" ROUGE "=> IL RESTE DES ERREURS : lis les [KO] ci-dessus "
+            "(fichier:ligne = endroit exact du test)." NC "\n");
         return (1);
+    }
+    printf("\n" VERT "=> TOUT EST OK !" NC "\n");
     return (0);
 }
