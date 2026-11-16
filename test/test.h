@@ -70,6 +70,8 @@ typedef struct s_bac
 	char			source[32];
 	char			appel[512];
 	char			liste_ko[4096];
+	int				nb_pile;
+	void			*pile[64];
 	size_t			taille_journal;
 	char			journal[JOURNAL_MAX];
 }	t_bac;
@@ -351,6 +353,16 @@ const char	*nom_signal(int sig);
 const char	*explication_signal(int sig);
 /* Ajoute au journal le compte rendu d'un crash (appel en cours, ligne). */
 void		journal_crash(int sig);
+
+/*
+** LIGNE DANS TON CODE (Linux, libft compilee avec -g, addr2line present) :
+** quand un test crashe ou boucle, la pile d'appels est capturee dans le fils
+** (g_bac->pile) puis traduite en "ft_substr.c:17 (ft_substr)".
+** Ecrit dans dst la chaine des appels situes dans les .c de la racine
+** (ton code), du plus profond au moins profond. Renvoie 0 si rien trouve.
+*/
+int			lignes_de_ton_code(void *const *pile, int n, char *dst,
+				size_t taille);
 
 /* ========================================================================== */
 /*                     TESTS PORTES DEPUIS FRANCINETTE                        */

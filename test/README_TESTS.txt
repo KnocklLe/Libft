@@ -22,7 +22,17 @@ AFFICHAGE
         -> explication de ce que la fonction aurait du faire
   Les CRASHS sont attrapes (chaque groupe tourne dans son propre processus) :
   segfault, bus error, abort (double free...), boucle infinie (TIMEOUT).
-  Le message donne l'appel qui a crashe, la ligne, et la cause probable.
+  Le message donne l'appel qui a crashe, la ligne du test, la cause probable
+  ET LA LIGNE DANS TON CODE :
+      x CRASH [fsoares] SIGSEGV (Segmentation fault)
+          pendant : ft_strtrim("", "")
+          crash dans ton code : ft_strtrim.c:8 (ft_strtrim)
+          (TIMEOUT : "ta fonction tournait ici : ft_itoa.c:11 (ft_itoa)")
+  Pour une FUITE, la ligne du malloc jamais libere est donnee :
+          bloc de 42 octet(s) alloue par malloc dans ton code : ft_strjoin.c:11
+  (Linux : la libft est compilee avec -g et addr2line est utilise.)
+  Pour un simple mauvais resultat il n'y a pas de "ligne fautive" : regarde
+  attendu / obtenu et le test a fichier:ligne.
 
   Pendant le suivi de malloc, chaque bloc alloue est rempli de '#' :
   si tu vois des '#' dans "obtenu", tu as oublie le '\0' final.

@@ -2,6 +2,7 @@
 ** framework.c - implementation du socle de tests (voir test.h).
 ** Ce fichier n'est PAS a rendre : il n'est pas a la norme.
 */
+#define _GNU_SOURCE
 #define TEST_FRAMEWORK
 #include "test.h"
 
@@ -9,8 +10,148 @@
 # define MAP_ANONYMOUS MAP_ANON
 #endif
 
+#if defined(__linux__) && defined(__GLIBC__)
+# define LIGNES_DISPO 1
+# include <dlfcn.h>
+# include <execinfo.h>
+#else
+# define LIGNES_DISPO 0
+#endif
+
 t_bac		*g_bac;
 const char	*g_test_fichier = "";
+
+/* ========================================================================== */
+/*            LIGNE DANS TON CODE : pile d'appels -> fichier:ligne            */
+/* ========================================================================== */
+
+static char			g_exe[1024];
+static uintptr_t	g_base;
+
+/* Chemin de l'executable et decalage de chargement (PIE). */
+static void	lignes_init(void)
+{
+#if LIGNES_DISPO
+	ssize_t			n;
+	int				fd;
+	unsigned char	entete[18];
+	Dl_info			info;
+	void			*tmp[2];
+
+	n = readlink("/proc/self/exe", g_exe, sizeof(g_exe) - 1);
+	if (n <= 0)
+	{
+		g_exe[0] = '\0';
+		return ;
+	}
+	g_exe[n] = '\0';
+	g_base = 0;
+	fd = open(g_exe, O_RDONLY);
+	if (fd >= 0)
+	{
+		if (read(fd, entete, sizeof(entete)) == (ssize_t)sizeof(entete)
+			&& entete[16] == 3 && dladdr((void *)lignes_init, &info))
+			g_base = (uintptr_t)info.dli_fbase;
+		close(fd);
+	}
+	backtrace(tmp, 2);
+#endif
+}
+
+/* Enleve le "\n" final et le " (discriminator N)" d'addr2line. */
+static void	nettoyer_ligne(char *s)
+{
+	char	*p;
+
+	p = strchr(s, '\n');
+	if (p)
+		*p = '\0';
+	p = strstr(s, " (discriminator");
+	if (p)
+		*p = '\0';
+}
+
+int	lignes_de_ton_code(void *const *pile, int n, char *dst, size_t taille)
+{
+#if LIGNES_DISPO
+	char	cmd[4096];
+	char	fonction[256];
+	char	lieu[1024];
+	char	racine[1024];
+	size_t	pos;
+	size_t	lr;
+	FILE	*f;
+	int		i;
+	int		trouve;
+	char	*rel;
+
+	dst[0] = '\0';
+	if (!g_exe[0] || n <= 0 || !getcwd(racine, sizeof(racine)))
+		return (0);
+	lr = strlen(racine);
+	pos = (size_t)snprintf(cmd, sizeof(cmd), "addr2line -f -e '%s'", g_exe);
+	for (i = 0; i < n && pos < sizeof(cmd) - 40; i++)
+		pos += (size_t)snprintf(cmd + pos, sizeof(cmd) - pos, " 0x%lx",
+				(unsigned long)((uintptr_t)pile[i] - g_base - 1));
+	snprintf(cmd + pos, sizeof(cmd) - pos, " 2>/dev/null");
+	f = popen(cmd, "r");
+	if (!f)
+		return (0);
+	trouve = 0;
+	pos = 0;
+	while (fgets(fonction, sizeof(fonction), f)
+		&& fgets(lieu, sizeof(lieu), f))
+	{
+		nettoyer_ligne(fonction);
+		nettoyer_ligne(lieu);
+		if (trouve >= 4 || strncmp(lieu, racine, lr) != 0 || lieu[lr] != '/')
+			continue ;
+		rel = lieu + lr + 1;
+		if (strchr(rel, '/') || !strncmp(rel, "??", 2))
+			continue ;
+		if (pos < taille)
+			pos += (size_t)snprintf(dst + pos, taille - pos, "%s%s (%s)",
+					trouve ? "\n" : "", rel, fonction);
+		trouve++;
+	}
+	pclose(f);
+	return (trouve);
+#else
+	(void)pile;
+	(void)n;
+	if (taille)
+		dst[0] = '\0';
+	return (0);
+#endif
+}
+
+/* Ajoute au journal "dans ton code : ft_x.c:12 (ft_x)" + les appelants. */
+static void	journal_lignes(const char *titre, void *const *pile, int n)
+{
+	char		lignes[2048];
+	const char	*p;
+	const char	*fin;
+	int			premier;
+
+	if (!lignes_de_ton_code(pile, n, lignes, sizeof(lignes)))
+		return ;
+	premier = 1;
+	p = lignes;
+	while (*p)
+	{
+		fin = strchr(p, '\n');
+		if (!fin)
+			fin = p + strlen(p);
+		if (premier)
+			journal("        %s : " CYAN "%.*s" NC "\n", titre,
+				(int)(fin - p), p);
+		else
+			journal("        %*s   <- appelee depuis " CYAN "%.*s" NC "\n",
+				(int)strlen(titre), "", (int)(fin - p), p);
+		premier = 0;
+		p = *fin ? fin + 1 : fin;
+	}
+}
 
 /* ========================================================================== */
 /*                           MEMOIRE PARTAGEE                                 */
@@ -29,6 +170,7 @@ void	bac_init(void)
 	}
 	memset(p, 0, sizeof(t_bac));
 	g_bac = p;
+	lignes_init();
 }
 
 void	bac_reset_groupe(const char *fonction, const char *source)
@@ -411,6 +553,7 @@ static size_t	g_nb_traces;
 static void		*g_traces_ptr[TRACES_ALLOC];
 static size_t	g_traces_taille[TRACES_ALLOC];
 static char		g_traces_vivant[TRACES_ALLOC];
+static void		*g_traces_appel[TRACES_ALLOC];
 
 void	suivi_debut(size_t echec_au)
 {
@@ -490,6 +633,7 @@ void	*__wrap_malloc(size_t taille)
 			g_traces_ptr[g_nb_traces] = ptr;
 			g_traces_taille[g_nb_traces] = taille;
 			g_traces_vivant[g_nb_traces] = 1;
+			g_traces_appel[g_nb_traces] = __builtin_return_address(0);
 			g_nb_traces++;
 		}
 	}
@@ -535,18 +679,59 @@ void	free_reel(void *p)
 }
 #endif
 
+/*
+** Pour les 3 premiers blocs non liberes : taille + ligne du malloc.
+** "dans ton code" si le malloc est dans un .c de la racine, sinon c'est un
+** bloc cree par le test que ta fonction aurait du liberer (ex: lstclear).
+*/
+static void	decrire_fuites(char *dst, size_t taille)
+{
+	size_t	i;
+	size_t	pos;
+	int		n;
+	char	lieu[512];
+	char	*nl;
+
+	dst[0] = '\0';
+	pos = 0;
+	n = 0;
+	for (i = 0; i < g_nb_traces && n < 3 && pos < taille; i++)
+	{
+		if (!g_traces_vivant[i])
+			continue ;
+		if (lignes_de_ton_code(&g_traces_appel[i], 1, lieu, sizeof(lieu)))
+		{
+			nl = strchr(lieu, '\n');
+			if (nl)
+				*nl = '\0';
+			pos += (size_t)snprintf(dst + pos, taille - pos,
+					"\nbloc de %zu octet(s) alloue par malloc dans ton code : "
+					CYAN "%s" NC, g_traces_taille[i], lieu);
+		}
+		else
+			pos += (size_t)snprintf(dst + pos, taille - pos,
+					"\nbloc de %zu octet(s) cree par le test (ta fonction "
+					"devait le liberer)", g_traces_taille[i]);
+		n++;
+	}
+}
+
 void	t_fuites_verif(int ligne, const char *quoi)
 {
 	size_t	v;
+	char	fuites[1024];
 
 	if (!g_malloc_dispo)
 		return ;
 	v = suivi_vivantes();
+	fuites[0] = '\0';
+	if (v)
+		decrire_fuites(fuites, sizeof(fuites));
 	verif(ligne, v == 0,
 		"toute memoire allouee doit etre soit renvoyee, soit liberee "
 		"(sinon c'est une fuite memoire)",
-		"%s : %zu bloc(s) alloue(s) par malloc jamais libere(s)",
-		quoi ? quoi : "apres l'appel", v);
+		"%s : %zu bloc(s) alloue(s) par malloc jamais libere(s)%s",
+		quoi ? quoi : "apres l'appel", v, fuites);
 }
 
 void	t_taille_verif(int ligne, const void *p, size_t attendue,
@@ -591,20 +776,24 @@ void	t_alloc_str_verif(int ligne, char *res, const char *attendu,
 void	t_protection_verif(int ligne, size_t i, size_t n, void *res)
 {
 	size_t	v;
+	char	fuites[1024];
 
 	v = suivi_vivantes();
+	fuites[0] = '\0';
 	if (!verif(ligne, res == NULL,
 			"si un malloc echoue, la fonction doit renvoyer NULL "
 			"(il faut proteger chaque malloc)",
 			"malloc numero %zu sur %zu a renvoye NULL\n"
 			"la fonction a quand meme renvoye un pointeur non NULL", i, n))
 		return ;
+	if (v)
+		decrire_fuites(fuites, sizeof(fuites));
 	verif(ligne, v == 0,
 		"quand un malloc echoue, il faut liberer tout ce qui a deja ete "
 		"alloue avant de renvoyer NULL",
 		"malloc numero %zu sur %zu a renvoye NULL\n"
-		"%zu bloc(s) alloue(s) avant l'echec n'ont pas ete libere(s) (fuite)",
-		i, n, v);
+		"%zu bloc(s) alloue(s) avant l'echec n'ont pas ete libere(s) (fuite)%s",
+		i, n, v, fuites);
 }
 
 /* ========================================================================== */
@@ -688,6 +877,43 @@ int	delai_test(void)
 	return (d);
 }
 
+/*
+** Dans le fils : au crash (ou au TIMEOUT), on photographie la pile d'appels
+** dans la memoire partagee, puis on laisse le signal tuer le processus.
+** La pile alternative permet de gerer aussi une recursion infinie.
+*/
+static char	g_pile_alt[65536];
+
+static void	capturer_pile(int sig)
+{
+#if LIGNES_DISPO
+	g_bac->nb_pile = backtrace(g_bac->pile, 64);
+#endif
+	signal(sig, SIG_DFL);
+	raise(sig);
+}
+
+static void	installer_capture(void)
+{
+	stack_t				ss;
+	struct sigaction	sa;
+	const int			sigs[] = {SIGSEGV, SIGBUS, SIGABRT, SIGFPE, SIGILL,
+		SIGALRM};
+	size_t				i;
+
+	g_bac->nb_pile = 0;
+	ss.ss_sp = g_pile_alt;
+	ss.ss_size = sizeof(g_pile_alt);
+	ss.ss_flags = 0;
+	sigaltstack(&ss, NULL);
+	memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = capturer_pile;
+	sa.sa_flags = SA_ONSTACK | SA_NODEFER | SA_RESETHAND;
+	sigemptyset(&sa.sa_mask);
+	for (i = 0; i < sizeof(sigs) / sizeof(sigs[0]); i++)
+		sigaction(sigs[i], &sa, NULL);
+}
+
 int	executer_isole(void (*f)(void), int delai)
 {
 	pid_t	pid;
@@ -700,7 +926,7 @@ int	executer_isole(void (*f)(void), int delai)
 		return (-1);
 	if (pid == 0)
 	{
-		signal(SIGALRM, SIG_DFL);
+		installer_capture();
 		alarm((unsigned int)delai);
 		f();
 		fflush(stdout);
@@ -785,6 +1011,10 @@ void	journal_crash(int sig)
 	else
 		journal("        avant la toute premiere verification du groupe "
 			"(le premier appel a la fonction a deja echoue)\n");
+	if (g_bac->nb_pile > 0)
+		journal_lignes(sig == SIGALRM ? "ta fonction tournait ici"
+			: "crash dans ton code", g_bac->pile, g_bac->nb_pile);
+	g_bac->nb_pile = 0;
 	journal("      " JAUNE "-> %s" NC "\n", explication_signal(sig));
 	if (sig == SIGALRM)
 		journal("      " JAUNE "-> (delai : %d s, modifiable avec "
@@ -803,6 +1033,8 @@ int	sous_test(int ligne, void (*f)(void), const char *quoi, const char *expl)
 	int		sig;
 	char	appel[512];
 	char	fichier[64];
+	char	lignes[1024];
+	char	*nl;
 
 	snprintf(appel, sizeof(appel), "%s", g_bac->appel);
 	snprintf(fichier, sizeof(fichier), "%s",
@@ -815,8 +1047,21 @@ int	sous_test(int ligne, void (*f)(void), const char *quoi, const char *expl)
 	if (sig == 0)
 		sig = !verif(ligne, 1, expl, NULL);
 	else
-		verif(ligne, 0, expl, "crash : %s\n(%s)", nom_signal(sig),
-			explication_signal(sig));
+	{
+		lignes[0] = '\0';
+		if (g_bac->nb_pile > 0 && lignes_de_ton_code(g_bac->pile,
+				g_bac->nb_pile, lignes + 1, sizeof(lignes) - 1))
+		{
+			lignes[0] = '\n';
+			nl = lignes;
+			while ((nl = strchr(nl + 1, '\n')) != NULL)
+				*nl = ' ';
+		}
+		g_bac->nb_pile = 0;
+		verif(ligne, 0, expl, "crash : %s\n(%s)%s%s", nom_signal(sig),
+			explication_signal(sig), lignes[0] ? "\ndans ton code : " : "",
+			lignes[0] ? lignes + 1 : "");
+	}
 	snprintf(g_bac->appel, sizeof(g_bac->appel), "%s", appel);
 	g_test_fichier = "";
 	return (sig == 0);

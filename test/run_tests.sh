@@ -21,7 +21,7 @@ export PATH
 
 SOURCES_TEST="test/main.c test/framework.c test/norminette.c \
 test/fr_part1.c test/fr_part2.c test/fr_bonus.c"
-FLAGS="-Wall -Wextra -Werror"
+FLAGS="-Wall -Wextra -Werror -g"
 EXE="test/test_libft"
 
 # ==========================================
@@ -29,7 +29,9 @@ EXE="test/test_libft"
 # ==========================================
 
 printf "${BLUE}===== 1/3 : make re (Makefile de la libft) =====${NC}\n"
-if ! make re > test/make.log 2>&1; then
+# -g en plus des flags du Makefile : permet d'afficher la ligne de TON code
+# (fichier.c:ligne) quand une fonction crashe, boucle ou fuit.
+if ! make re FLAGS="-Wall -Wextra -Werror -g" > test/make.log 2>&1; then
     cat test/make.log
     printf "${RED}[KO] make re a echoue : la libft ne compile pas (voir ci-dessus)${NC}\n"
     exit 2
